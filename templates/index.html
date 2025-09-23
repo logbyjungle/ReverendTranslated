@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reverend Insanity Chapter {{ chapter }}</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        background-color: #222235;
+        color: #cdd6f4;
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 2em;
+    }
+
+    .content {
+        white-space: pre-wrap;
+        background-color: #222235;
+        padding: 2em;
+        border-radius: 1em;
+        max-width: 60%;
+        transform-origin: top center;
+        <!-- font-size: 1.2em; -->
+        font-size: 18px;
+        line-height: 160%;
+    }
+</style>
+</head>
+<body>
+<div class="content" id="content">{{ content }}</div>
+<script>
+function detectZoom() {
+    return window.devicePixelRatio || 1;
+}
+
+function scaleContainer() {
+    const zoom = detectZoom(); // e.g. 1.25 for 125% zoom
+    const container = document.getElementById('content');
+    container.style.transform = `scale(${zoom})`;
+}
+
+window.addEventListener('resize', scaleContainer);
+window.addEventListener('load', scaleContainer);
+</script>
+</body>
+</html>

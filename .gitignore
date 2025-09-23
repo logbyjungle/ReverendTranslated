@@ -2,3 +2,4 @@ venv/
 run.sh
 translations/
 sources/
+__pycache__/
