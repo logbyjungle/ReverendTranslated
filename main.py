@@ -9,12 +9,19 @@ def home():
 
 @app.route("/<lang>/<chapter>")
 def page(lang, chapter):
+    if chapter not in [str(i) for i in range (1,2335)]:
+        return "What chapter is " + str(chapter) + " exactly?"
+
+    with open("languages.txt","r") as file:
+        if lang not in [lang.replace("\n","") for lang in file.readlines()]:
+            return "What language is " + lang + " exactly?"
+    
     translate_and_store(chapter,lang)
 
     with open("translations/" + lang + "-" + chapter + ".txt", "r") as file:
         content = file.read()
 
-    return render_template("index.html",chapter=chapter,content=content)
+    return render_template("chapter.html",chapter=chapter,content=content)
 
 if __name__ == '__main__':
     app.run(debug=True,use_reloader=False)

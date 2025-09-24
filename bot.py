@@ -36,9 +36,6 @@ def translate(text,lang,quit = 1):
     driver.implicitly_wait(1)
     copy_elem.click()
     time.sleep(1)
-    # print(pyperclip.paste())
-
-    # driver.implicitly_wait(1)
 
     if quit:
         driver.quit()
@@ -87,23 +84,15 @@ def scrape_chapter(chapter,quit=1):
         with open(filename, "w") as file:
             file.write(driver.page_source)
 
-        paragraphs = driver.find_elements(By.TAG_NAME, "p")
-        all_text = [p.text for p in paragraphs]
+    with open(filename) as file:
+        html = file.read()
+        soup = BeautifulSoup(html, "html.parser")
+        paragraphs = [p.get_text() for p in soup.find_all("p")]
 
-        if quit:
-            driver.quit()
+    if quit:
+        driver.quit()
 
-        return "\n\n\n".join(all_text)
-    else:
-        with open(filename) as file:
-            html = file.read()
-            soup = BeautifulSoup(html, "html.parser")
-            paragraphs = [p.get_text() for p in soup.find_all("p")]
-
-        if quit:
-            driver.quit()
-
-        return "\n\n\n".join(paragraphs)
+    return "\n\n\n".join(paragraphs)
 
 def translate_and_store(chapter,lang):
     os.makedirs("translations",exist_ok=True)
@@ -111,5 +100,3 @@ def translate_and_store(chapter,lang):
     if not os.path.isfile("translations/" + filename):
         with open("translations/" + filename, "w") as file:
             file.write(translatewhole(scrape_chapter(chapter,0),lang))
-
-# translate_and_store(1,"it")

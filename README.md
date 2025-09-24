@@ -10,3 +10,10 @@ As of now the project is still not really made to be used:
 1. the site lacks a good UI
 2. the requests arent handled in parallel due to selenium's limitations, this means that the entire way the project work will have to be revolutionized
 3. there might be a bunch of issues with the translation, since the project is made for everyone it is right that those who find errors in the translation and want to fix the issue must be able to do so
+
+TODO:
+stop using mananovel for the source text
+make the server load the next chapter the person is reading
+make a main page
+store cookies to make users not select dark/light mode every time
+make a page for chapter 0 and 2335

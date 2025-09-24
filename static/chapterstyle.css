@@ -1,0 +1,47 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 2em;
+    background-color: white;
+    color: black;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+.content {
+    white-space: pre-wrap;
+    padding: 15px;
+    border-radius: 1em;
+    max-width: min(95%,1200px);
+    box-sizing: border-box;
+    transform-origin: top center;
+    font-size: 18px;
+    line-height: 160%;
+}
+
+.dark-mode {
+    background-color: black;
+    color:white;
+}
+
+.lightdark {
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+button, form, select {
+    border-radius: 10px;
+    border: 0px;
+    background-color: #f0f0f0;
+}
+
+button, form {
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
+}
+
