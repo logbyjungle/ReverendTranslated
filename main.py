@@ -13,9 +13,10 @@ def page(lang, chapter):
         return "What chapter is " + str(chapter) + " exactly?"
 
     with open("languages.txt","r") as file:
-        if lang not in [lang.replace("\n","") for lang in file.readlines()]:
+        langs = eval(file.read())
+        if lang not in langs.values():
             return "What language is " + lang + " exactly?"
-    
+
     translate_and_store(chapter,lang)
 
     with open("translations/" + lang + "-" + chapter + ".txt", "r") as file:
