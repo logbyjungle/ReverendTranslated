@@ -12,7 +12,7 @@ As of now the project is still not really made to be used:
 3. there might be a bunch of issues with the translation, since the project is made for everyone it is right that those who find errors in the translation and want to fix the issue must be able to do so
 
 TODO:
-make the server load the next chapter the person is reading
 make a main page
-store cookies to make users not select dark/light mode every time
-make a page for chapter 0 and 2335
+add a check to see if the translated file is empty or not
+the buttons and form below the chapter do not work
+add logging
