@@ -79,7 +79,7 @@ def scrape_chapter(chapter,quit=1):
     os.makedirs("sources",exist_ok=True)
     filename = "sources/" + str(chapter) + ".html"
     if not os.path.isfile(filename):
-        driver.get(f"https://mananovel.com/novel/reverend-insanity-11/chapter/{chapter}")
+        driver.get(f"https://www.noveldot.com/novel-17121-217562/Reverend-Insanity/chapter-{chapter}")
 
         with open(filename, "w") as file:
             file.write(driver.page_source)
