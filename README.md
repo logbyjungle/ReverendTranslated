@@ -12,7 +12,5 @@ As of now the project is still not really made to be used:
 3. there might be a bunch of issues with the translation, since the project is made for everyone it is right that those who find errors in the translation and want to fix the issue must be able to do so
 
 TODO:
-make a main page
-add a check to see if the translated file is empty or not
-the buttons and form below the chapter do not work
-add logging
+add a loading page
+make the titles of the chapters be displayed once again
