@@ -118,3 +118,12 @@ function LightDark() {
 let defaultOption = document.getElementById('defaultoption');
 defaultOption.textContent = `Chapter ${currentChapter}`;
 defaultOption.value = currentChapter;
+
+function redirectToPage() {
+    const select = document.getElementById('lang');
+    const value = select.value;
+    if (value) {
+        // Redirect to /{dictionary value}/1
+        window.location.href = `/${value}/1`;
+    }
+}
