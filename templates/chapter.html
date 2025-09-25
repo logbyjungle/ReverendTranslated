@@ -17,8 +17,8 @@
         
         <div style="position: relative; width: 100%; height: 50px">
             <form id="chapterForm" style="position: absolute; left: 50%; transform: translateX(-50%); margin: 0;">
-                <select name="list" id="list" onchange="goToNewPage()">
-                    <option value='none' id="defaultoption">Choose a chapter</option>
+                <select name="list" id="list">
+                    <option value='none' id="defaultoptiontop">Choose a chapter</option>
                 </select>
             </form>
             <button id="prevChapter" style="position: absolute; top: 0; right: 50%; transform: translateX(-90%);">Previous Chapter</button>
@@ -29,14 +29,16 @@
 
         <div style="position: relative; width: 100%; height: 50px">
             <form id="chapterFormBottom" style="position: absolute; left: 50%; transform: translateX(-50%); margin: 0;">
-                <select name="listbottom" id="listbottom" onchange="goToNewPage()">
-                    <option value='none' id="defaultoption">Choose a chapter</option>
+                <select name="listbottom" id="listbottom">
+                    <option value='none' id="defaultoptionbottom">Choose a chapter</option>
                 </select>
             </form>
             <button id="prevChapterBottom" style="position: absolute; top: 0; right: 50%; transform: translateX(-90%);">Previous Chapter</button>
             <button id="nextChapterBottom" style="position: absolute; top: 0; left: 50%; transform: translateX(110%);">Next Chapter</button>
         </div>
 
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     </body>
 </html>

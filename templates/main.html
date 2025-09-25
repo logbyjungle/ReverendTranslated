@@ -1,21 +1,41 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Select a Language</title>
-</head>
-<body>
-    <form>
-        <label for="lang">Choose a language:</label>
-        <select name="lang" id="lang" onchange="redirectToPage()">
-            <option value="" disabled selected>Select one</option>
-            {% for key, value in mapping.items() %}
-            <option value="{{ value }}">{{ key }}</option>
-            {% endfor %}
-        </select>
-    </form>
+    <head>
+        <meta charset="UTF-8">
+        <title>ReverendTranslated</title>
+        <link rel="icon" type="image/png" href="../static/icon.png">
+    </head>
+    <style>
+        .languages-selection {
+          max-width: 50%;
+          margin: 50px auto 0;
+          padding: 20px;
+          background: #f0f0f0;
+          border-radius: 8px;
+        }
 
-    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-</body>
+        p {
+            text-align: center;
+        }
+    </style>
+    <body>
+        <div class="languages-selection">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+            <select name="lang" id="lang" placeholder="Select a language" onchange="redirectToPage()">
+                <option value="" disabled selected></option>
+                {% for key, value in mapping.items() %}
+                <option value="{{ value }}">{{ key }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <p>This project has not been finalized yet, as of now its just enough to be working</p>
+            <p>If you are interested in contributing to the project you can check it out <a href="https://github.com/logbyjungle/ReverendTranslated">here</a></p>
+        </div>
+
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    </body>
 </html>

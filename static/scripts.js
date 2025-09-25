@@ -1,3 +1,10 @@
+
+$(document).ready(function () {
+    $('#lang').selectize({
+        sortField: 'text'
+    });
+});
+
 let currentUrl = window.location.href;
 let urlParts = currentUrl.split('/');
 let currentChapter = parseInt(urlParts[urlParts.length - 1]);
@@ -115,9 +122,14 @@ function LightDark() {
   var element = document.body;
   element.classList.toggle("dark-mode");
 }
-let defaultOption = document.getElementById('defaultoption');
-defaultOption.textContent = `Chapter ${currentChapter}`;
-defaultOption.value = currentChapter;
+
+let defaultOptionTop = document.getElementById('defaultoptiontop');
+defaultOptionTop.textContent = `Chapter ${currentChapter}`;
+defaultOptionTop.value = currentChapter;
+
+let defaultOptionBottom = document.getElementById('defaultoptionbottom');
+defaultOptionBottom.textContent = `Chapter ${currentChapter}`;
+defaultOptionBottom.value = currentChapter;
 
 function redirectToPage() {
     const select = document.getElementById('lang');
