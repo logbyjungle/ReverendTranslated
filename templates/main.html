@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select a Language</title>
+</head>
+<body>
+    <form>
+        <label for="lang">Choose a language:</label>
+        <select name="lang" id="lang" onchange="redirectToPage()">
+            <option value="" disabled selected>Select one</option>
+            {% for key, value in mapping.items() %}
+            <option value="{{ value }}">{{ key }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
