@@ -13,4 +13,3 @@ As of now the project is still not really made to be used:
 
 TODO:
 add a loading page
-make the titles of the chapters be displayed once again
