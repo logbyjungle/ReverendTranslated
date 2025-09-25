@@ -13,26 +13,30 @@ from bs4 import BeautifulSoup
 
 options = Options()
 driver = undetected_chromedriver.Chrome(
-        service=Service(ChromeDriverManager().install()), options=options, version_main=139
-    )
+    service=Service(ChromeDriverManager().install()), options=options, version_main=139
+)
 
 def translate(text,lang,quit = 1):
 
     driver.get(f"https://translate.google.com/?sl=en&tl={lang}&text={text}&op=translate")
 
     try:
-        accept_all = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Accept all')]"))
-        ) # raises an exception btw
-
-        accept_all.click()
+        copy_elem = WebDriverWait(driver, 5).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label="Copy translation"]'))
+        )
     except Exception:
-        pass
-    driver.implicitly_wait(1)
+        try:
+            accept_all = WebDriverWait(driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Accept all')]"))
+            ) # raises an exception btw
 
-    copy_elem = WebDriverWait(driver,10).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label="Copy translation"]'))
-    )
+            accept_all.click()
+        except Exception:
+            pass
+        copy_elem = WebDriverWait(driver, 5).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label="Copy translation"]'))
+        ) # raises exception
+
     driver.implicitly_wait(1)
     copy_elem.click()
     time.sleep(1)
@@ -79,7 +83,6 @@ def scrape_chapter(chapter,quit=1):
     os.makedirs("sources",exist_ok=True)
     filename = "sources/" + str(chapter) + ".html"
     if not os.path.isfile(filename):
-        # driver.get(f"https://www.noveldot.com/novel-17121-217562/Reverend-Insanity/chapter-{chapter}")
         driver.get(f"https://fantasylibrary.ink/novel/reverend-insanity-11/chapter/{chapter}")
 
         with open(filename, "w") as file:
@@ -98,6 +101,11 @@ def scrape_chapter(chapter,quit=1):
 def translate_and_store(chapter,lang):
     os.makedirs("translations",exist_ok=True)
     filename = lang + "-" + str(chapter) + ".txt"
-    if not os.path.isfile("translations/" + filename):
+    if not os.path.isfile("translations/" + filename) or not os.path.getsize("translations/" + filename):
         with open("translations/" + filename, "w") as file:
             file.write(translatewhole(scrape_chapter(chapter,0),lang))
+        with open("translations/" + filename, "r") as file:
+            lines = file.readlines()
+        with open("translations/" + filename, "w") as file:
+            file.writelines(line for line in lines if "fantasylibrary" not in line and "🎉" not in line and "Reverend Insanity" not in line)
+
