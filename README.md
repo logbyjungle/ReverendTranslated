@@ -13,3 +13,10 @@ As of now the project is still not really made to be used:
 
 TODO:
 add a loading page
+
+## Important Notice
+
+This repository is open-source under the GPL 3.0 license, but that applies **only to the code**.
+
+The translated text of *Reverend Insanity* included or produced by this project is **unauthorized and copyrighted** by the original author and publisher. 
+This project **does not grant permission** to redistribute or commercialize these translations.
