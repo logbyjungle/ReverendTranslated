@@ -11,16 +11,40 @@ import undetected_chromedriver
 import os
 from bs4 import BeautifulSoup
 
-options = Options()
-driver = undetected_chromedriver.Chrome(
-    service=Service(ChromeDriverManager().install()), options=options, version_main=139
-)
+running = 0
+
+def startdriver():
+    global running
+    global driver
+    if not running:
+        options = Options()
+        driver = undetected_chromedriver.Chrome(
+            service=Service(ChromeDriverManager().install()), options=options, version_main=139
+        )
+        running = 1
+
+def stopdriver():
+    global running
+    global driver
+    if running:
+        driver.quit()
+        running = 0
 
 def translate(text,lang,quit = 1):
+
+    startdriver()
 
     driver.get(f"https://translate.google.com/?sl=en&tl={lang}&text={text}&op=translate")
 
     try:
+        try:
+            accept_all = WebDriverWait(driver, 1).until(
+                EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Accept all')]"))
+            ) # raises an exception btw
+
+            accept_all.click()
+        except Exception:
+            pass
         copy_elem = WebDriverWait(driver, 5).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label="Copy translation"]'))
         )
@@ -37,17 +61,18 @@ def translate(text,lang,quit = 1):
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label="Copy translation"]'))
         ) # raises exception
 
-    driver.implicitly_wait(1)
     copy_elem.click()
     time.sleep(1)
 
     if quit:
-        driver.quit()
+        stopdriver()
 
     return pyperclip.paste()
 
 
 def translatewhole(text,lang,quit=1):
+    startdriver()
+
     translation = ""
     splits = text.split("\n\n\n") 
     splits_encoded = [urllib.parse.quote(split) for split in splits]
@@ -74,11 +99,12 @@ def translatewhole(text,lang,quit=1):
         else:
             chars += len(splits_encoded[i])
     if quit:
-        driver.quit()
+        stopdriver()
     return translation
     
 
 def scrape_chapter(chapter,quit=1):
+    startdriver()
 
     os.makedirs("sources",exist_ok=True)
     filename = "sources/" + str(chapter) + ".html"
@@ -94,7 +120,7 @@ def scrape_chapter(chapter,quit=1):
         paragraphs = [p.get_text() for p in soup.find_all("p")]
 
     if quit:
-        driver.quit()
+        stopdriver()
 
     return "\n\n\n".join(paragraphs)
 
