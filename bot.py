@@ -92,7 +92,7 @@ def translatewhole(text,lang,quit=1):
             chars = 0
         elif i == len(splits)-1:
             to_translate = ""
-            for j in range(start,i):
+            for j in range(start,i+1):
                 to_translate += splits_encoded[j]
                 to_translate += divisor
             translation += translate(to_translate,lang,0)
@@ -118,6 +118,8 @@ def scrape_chapter(chapter,quit=1):
         html = file.read()
         soup = BeautifulSoup(html, "html.parser")
         paragraphs = [p.get_text() for p in soup.find_all("p")]
+        if soup.title is not None and soup.title.string is not None:
+            paragraphs.insert(0,soup.title.string[20:-18])
 
     if quit:
         stopdriver()
