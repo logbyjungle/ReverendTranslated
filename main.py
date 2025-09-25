@@ -3,19 +3,20 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+with open("languages.txt","r") as file:
+    langs = eval(file.read())
+
 @app.route("/")
 def home():
-    return "Home"
+    return render_template("main.html", mapping=langs)
 
 @app.route("/<lang>/<chapter>")
 def page(lang, chapter):
     if chapter not in [str(i) for i in range (1,2335)]:
         return "What chapter is " + str(chapter) + " exactly?"
 
-    with open("languages.txt","r") as file:
-        langs = eval(file.read())
-        if lang not in langs.values():
-            return "What language is " + lang + " exactly?"
+    if lang not in langs.values():
+        return "What language is " + lang + " exactly?"
 
     translate_and_store(chapter,lang)
 
