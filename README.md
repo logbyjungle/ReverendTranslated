@@ -16,6 +16,8 @@ As of now the project is still not really made to be used:
 TODO:
 add a loading page
 add a check to see if the source or translation is less than 500 characters(it failed)
+make gunicorn print requests
+add logs
 
 ## Important Notice
 
