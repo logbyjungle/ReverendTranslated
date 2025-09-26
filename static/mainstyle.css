@@ -1,13 +1,26 @@
 .languages-selection {
     max-width: 80%;
-    margin: 50px auto 0;
+    margin: 50px auto 50px;
     padding: 20px;
     background: #f0f0f0;
     border-radius: 8px;
     font-size: 24px;
 }
 
+img {
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+p, img {
+    display: block;
+    margin: 0 auto 50px auto;
+}
+
 p {
+    max-width: 80%;
     text-align: center;
     font-size: 24px;
 }

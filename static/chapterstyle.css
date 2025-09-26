@@ -4,7 +4,7 @@ body {
     align-items: flex-start;
     min-height: 100vh;
     font-family: Arial, sans-serif;
-    margin: 0;
+    margin: 15px 0 0 0;
     padding: 2em;
     background-color: #F4F4F4;
     color: #191A1A;
@@ -16,12 +16,25 @@ body {
 .content {
     white-space: pre-wrap;
     padding: 15px;
-    border-radius: 1em;
     max-width: min(95%,1200px);
     box-sizing: border-box;
     transform-origin: top center;
-    font-size: 18px;
+    font-size: 1.2rem;
     line-height: 160%;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 0em;
+    }
+
+    .content {
+        width: 100%;
+        font-size: 1.2rem;
+        line-height: 160%;
+        padding: 5px;
+        max-width: 100%;
+    }
 }
 
 .dark-mode {
