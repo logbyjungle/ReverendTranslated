@@ -21,6 +21,16 @@ python main.py
 and then enter the site at `localhost:5000`
 **OR you can just use a docker container with port 5000 open 🐋**
 
+If you instead want to host it for others you have to:  
+- `git clone https://github.com/logbyjungle/ReverendTranslated.git`
+- `cd ReverendTranslated`
+- `docker compose up -d --build` Use Docker Compose instead of normal Docker  
+- Port forward ports **80(http) and 443(https)**  
+- Replace the address found inside `nginx.conf` with your own address(*public ipv4 or domain*)  
+<p align="center">
+    <img src="carbon.png" alt="nginx config" width="750">
+</p>
+
 This is a site hosted utilizing flask, it takes pages of RI's chapters from other sites and translate them by using google translate via selenium
 
 The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe by making sure everyone can read it

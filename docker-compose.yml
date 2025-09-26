@@ -1,0 +1,23 @@
+services:
+  flask-app:
+    build: .
+    container_name: flask-app
+    restart: unless-stopped
+    expose:
+      - "5000"       # only exposed to other containers, not the host
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_RUN_HOST=0.0.0.0
+      - DISPLAY=:99
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"       # HTTP
+      - "443:443"     # HTTPS
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - flask-app
