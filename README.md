@@ -4,9 +4,9 @@
     <img src="static/icon.png" alt="Perseverance" width="200">
 </p>
 <p align="center">
-    <i>The translation is not perfect of course, but it is for sure better than those MTL sites</i>
-    <i>The version of RI that is translated is in english, instead of the original chinese version, this might cause a further loss in meaning</i>
-    <i>Thats why i'll be trying to add an option to choose which version to choose</i>
+    <i>The translation is not perfect of course, but it is for sure better than those MTL sites</i><br>
+    <i>The version of RI that is translated is in english, instead of the original chinese version, this might cause a further loss in meaning</i><br>
+    <i>Thats why i'll be trying to add an option to choose which version to choose</i><br>
 </p>
 
 ---
