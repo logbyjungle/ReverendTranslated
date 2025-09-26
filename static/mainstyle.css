@@ -1,0 +1,18 @@
+.languages-selection {
+    max-width: 80%;
+    margin: 50px auto 0;
+    padding: 20px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    font-size: 24px;
+}
+
+p {
+    text-align: center;
+    font-size: 24px;
+}
+
+.selectize-dropdown-content .option {
+    padding: 12px 20px;
+    line-height: 1.8;
+}
