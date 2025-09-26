@@ -5,11 +5,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pyperclip
-import time
 import urllib.parse
 import undetected_chromedriver
 import os
 from bs4 import BeautifulSoup
+from pathlib import Path
+
+def in_docker():
+    cgroup = Path('/proc/self/cgroup')
+    return Path('/.dockerenv').is_file() or (cgroup.is_file() and 'docker' in cgroup.read_text())
+
+if in_docker():
+    os.environ["DISPLAY"] = ":99"
 
 running = 0
 
@@ -18,6 +25,11 @@ def startdriver():
     global driver
     if not running:
         options = Options()
+        # using headless mode breaks everything
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--shm-size=2g")
+        options.add_argument("--window-size=1280,720")
         driver = undetected_chromedriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=options, version_main=139
         )
@@ -62,7 +74,6 @@ def translate(text,lang,quit = 1):
         ) # raises exception
 
     copy_elem.click()
-    time.sleep(1)
 
     if quit:
         stopdriver()
@@ -110,6 +121,11 @@ def scrape_chapter(chapter,quit=1):
     filename = "sources/" + str(chapter) + ".html"
     if not os.path.isfile(filename):
         driver.get(f"https://fantasylibrary.ink/novel/reverend-insanity-11/chapter/{chapter}")
+
+        # Wait until the page is fully loaded
+        WebDriverWait(driver, 10).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
 
         with open(filename, "w") as file:
             file.write(driver.page_source)

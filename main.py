@@ -26,4 +26,4 @@ def page(lang, chapter):
     return render_template("chapter.html",chapter=chapter,content=content)
 
 if __name__ == '__main__':
-    app.run(debug=True,use_reloader=False)
+    app.run(debug=True,use_reloader=False,host="0.0.0.0")

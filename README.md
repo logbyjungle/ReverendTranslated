@@ -6,6 +6,8 @@ The objective to be reached is spreading Gu Zhen Ren's work across the globe by 
 
 The translation is not perfect of course, but it is for sure better than those MTL sites; the version of RI that is translated is in english, instead of the original chinese version, this might cause a further loss in meaning, thats why i'll be trying to add an option to choose which version to choose
 
+In order to be run in a docker container the port 5000 has to be opened
+
 As of now the project is still not really made to be used:
 1. the site lacks a good UI
 2. the requests arent handled in parallel due to selenium's limitations, this means that the entire way the project work will have to be revolutionized
@@ -13,6 +15,7 @@ As of now the project is still not really made to be used:
 
 TODO:
 add a loading page
+add a check to see if the source or translation is less than 500 characters(it failed)
 
 ## Important Notice
 
