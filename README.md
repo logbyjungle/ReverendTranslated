@@ -40,7 +40,7 @@ As of now the project is still not really made to be used:
 2. the requests arent handled in parallel due to selenium's limitations, this means that the entire way the project work will have to be revolutionized
 3. there might be a bunch of issues with the translation, since the project is made for everyone it is right that those who find errors in the translation and want to fix the issue must be able to do so
 
-> ***TODO***
+> ***TODO***  
 > add a loading page  
 > add a check to see if the source or translation is less than 500 characters(it failed)  
 > make gunicorn print requests  

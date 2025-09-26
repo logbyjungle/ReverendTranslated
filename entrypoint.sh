@@ -1,9 +1,17 @@
 #!/bin/bash
 set -e
 
+# Remove stale Xvfb lock if it exists
+if [ -f /tmp/.X99-lock ]; then
+    echo "Removing stale Xvfb lock"
+    rm -f /tmp/.X99-lock
+fi
+
 Xvfb :99 -screen 0 1280x1024x24 &
 XVFB_PID=$!
 echo "Xvfb started with PID $XVFB_PID"
+
+sleep 4
 
 openbox &
 OPENBOX_PID=$!
