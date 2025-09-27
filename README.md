@@ -25,7 +25,7 @@ If you instead want to host it for others you have to:
 - `git clone https://github.com/logbyjungle/ReverendTranslated.git`
 - `cd ReverendTranslated`
 - `docker compose up -d --build` Use Docker Compose instead of normal Docker  
-- Port forward ports **80(http) and 443(https)**  
+- Port forward ports **80(http) and 443(https)**, remember to make your **ipv4** address static  
 - Replace the address found inside `nginx.conf` with your own address(*public ipv4 or domain*)  
 <p align="center">
     <img src="carbon.png" alt="nginx config" width="750">
