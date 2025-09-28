@@ -44,8 +44,8 @@ echo "0 */12 * * * root certbot renew --quiet --deploy-hook 'nginx -s reload'" >
 cron && nginx -g "daemon off;"
 nginx -s quit
 cd etc/nginx/conf.d/
-mv nginx.conf nginx.conf.disabledd
-mv nginx.conf.disabled nginx.conf
+mv nginx.conf nginx.conf.disabled
+mv nginx.conf.https nginx.conf
 nginx -s reload
 ```  
 The certificate should tecnically be automatically renewed, but in fact I dont know, this is because while trying to set up a way for it to automatically renew it, I came across the certificate rate limit  
