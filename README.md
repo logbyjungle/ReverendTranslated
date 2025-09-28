@@ -11,7 +11,7 @@
 
 ---
 
-In order to be run locally you just have to:
+## In order to be run locally you just have to:
 ```sh
 git clone https://github.com/logbyjungle/ReverendTranslated.git
 cd ReverendTranslated
@@ -21,15 +21,36 @@ python main.py
 and then enter the site at `localhost:5000`
 **OR you can just use a docker container with port 5000 open 🐋**
 
-If you instead want to host it for others you have to:  
+## If you instead want to host it for others you have to:  
 - `git clone https://github.com/logbyjungle/ReverendTranslated.git`
 - `cd ReverendTranslated`
-- `docker compose up -d --build` Use Docker Compose instead of normal Docker  
-- Port forward ports **80(http) and 443(https)**, remember to make your **ipv4** address static  
-- Replace the address found inside `nginx.conf` with your own address(*public ipv4 or domain*)  
+- Replace the address found inside `nginx.conf` and `nginx.conf.https` with your own address(*public ipv4 or domain*)  
+
 <p align="center">
     <img src="carbon.png" alt="nginx config" width="750">
 </p>
+
+- Do the same with the ones found in the *html* files  
+- Use [Duckdns](https://www.duckdns.org) to get a static address  
+- I advise setting up a script in the host machine to update the public ip for Duckdns
+- `docker compose up -d --build` Use Docker Compose instead of normal Docker  
+- Port forward ports **80(http) and 443(https)**, remember to make your **ipv4** address static  
+
+### If you also want to make everything more secure you have to use **https**:  
+- go inside the shell of the nginx container
+```sh
+certbot certonly --non-interactive --agree-tos --email YOUREMAIL --preferred-challenges dns --authenticator dns-duckdns --dns-duckdns-token YOURTOKEN --dns-duckdns-propagation-seconds 60 -d "YOURSUBDOMAIN.duckdns.org"
+echo "0 */12 * * * root certbot renew --quiet --deploy-hook 'nginx -s reload'" > /etc/cron.d/certbot-renew && chmod 0644 /etc/cron.d/certbot-renew
+cron && nginx -g "daemon off;"
+nginx -s quit
+cd etc/nginx/conf.d/
+mv nginx.conf nginx.conf.disabledd
+mv nginx.conf.disabled nginx.conf
+nginx -s reload
+```  
+The certificate should tecnically be automatically renewed, but in fact I dont know, this is because while trying to set up a way for it to automatically renew it, I came across the certificate rate limit  
+
+---
 
 This is a site hosted utilizing flask, it takes pages of RI's chapters from other sites and translate them by using google translate via selenium
 
@@ -42,10 +63,11 @@ As of now the project is still not really made to be used:
 
 > ***TODO***  
 > add a loading page  
-> add a check to see if the source or translation is less than 500 characters(it failed)  
+> add a check to see if the source or translation is less than 500 characters(or another way to check if it was unsuccessful)  
 > add https with let's encrypt  
 > implement github actions  
 > implement security features(protection from ddos)
+> copy the nginx configs instead of mounting them
 
 *This repository is open-source under the GPL 3.0 license, but that applies **only to the code**.  
 The translated text of *Reverend Insanity* included or produced by this project is **unauthorized and copyrighted** by the original author and publisher.  
