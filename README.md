@@ -10,7 +10,7 @@
 </p>
 
 ---
-![Site Status](https://img.shields.io/website?url=http%3A//reverendtranslated.duckdns.org/)
+![Site Status](https://img.shields.io/website-up-down-green-red/http/reverendtranslated.duckdns.org)
 
 ## In order to be run locally you just have to:
 ```sh
