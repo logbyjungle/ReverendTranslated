@@ -6,7 +6,7 @@ services:
     container_name: flask-app
     restart: unless-stopped
     expose:
-      - "5000"       # only exposed to other containers, not the host
+      - "5000"
     environment:
       - FLASK_APP=main.py
       - FLASK_RUN_HOST=0.0.0.0
@@ -19,9 +19,9 @@ services:
     container_name: nginx
     restart: unless-stopped
     ports:
-      - "80:80"       # HTTP
-      - "443:443"     # HTTPS
+      - "80:80"
+      - "443:443"
     depends_on:
       - flask-app
     volumes:
-      - ./certificates:/etc/letsencrypt/live/reverendtranslated.duckdns.org
+      - ./etc/letsencrypt:/etc/letsencrypt

@@ -27,7 +27,7 @@ and then enter the site at `localhost:5000`
 - Replace the address found inside `nginx.conf` and `nginx.conf.https` with your own address(*public ipv4 or domain*)  
 
 <p align="center">
-    <img src="carbon.png" alt="nginx config" width="750">
+    <img src="./static/carbon.png" alt="nginx config" width="750">
 </p>
 
 - Do the same with the ones found in the *html* files  
@@ -39,7 +39,7 @@ and then enter the site at `localhost:5000`
 ### If you also want to make everything more secure you have to use **https**:  
 - go inside the shell of the nginx container
 ```sh
-certbot certonly --non-interactive --agree-tos --email YOUREMAIL --preferred-challenges dns --authenticator dns-duckdns --dns-duckdns-token YOURTOKEN --dns-duckdns-propagation-seconds 60 -d "YOURSUBDOMAIN.duckdns.org"
+certbot certonly --non-interactive --agree-tos --email YOUREMAIL --preferred-challenges dns --authenticator dns-duckdns --dns-duckdns-token "YOURTOKEN" --dns-duckdns-propagation-seconds 60 -d "YOURSUBDOMAIN.duckdns.org"
 nginx -s quit
 cd etc/nginx/conf.d/
 mv nginx.conf nginx.conf.disabled
@@ -47,6 +47,7 @@ mv nginx.conf.https nginx.conf
 nginx -s reload
 ```  
 The certificate should tecnically be automatically renewed, but in fact I dont know, this is because while trying to set up a way for it to automatically renew it, I came across the certificate rate limit  
+The certificates can be managed in the `certificates` folder, you can also create it and put inside them before creating the container  
 
 ---
 

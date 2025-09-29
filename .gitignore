@@ -4,3 +4,4 @@ translations/
 sources/
 __pycache__/
 update-duckdns.sh
+etc/
