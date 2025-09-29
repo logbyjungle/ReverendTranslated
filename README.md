@@ -64,9 +64,9 @@ As of now the project is still not really made to be used:
 > add a loading page  
 > add a check to see if the source or translation is less than 500 characters(or another way to check if it was unsuccessful)  
 > implement github actions  
-> implement security features(protection from ddos)
-> add github badges
-> make the docker container avaiable easily
+> implement security features(protection from ddos)  
+> add github badges  
+> make the docker container avaiable easily  
 
 *This repository is open-source under the GPL 3.0 license, but that applies **only to the code**.  
 The translated text of *Reverend Insanity* included or produced by this project is **unauthorized and copyrighted** by the original author and publisher.  
