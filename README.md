@@ -10,7 +10,7 @@
 </p>
 
 ---
-![Site Status](https://img.shields.io/website-up-down-green-red/http/reverendtranslated.duckdns.org)
+[![Site Status](https://img.shields.io/uptimerobot/status/m123456789-abcdef123456)](http://reverendtranslated.duckdns.org)
 
 ## In order to be run locally you just have to:
 ```sh
