@@ -1,0 +1,41 @@
+name: Site Status
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check-google:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Check if site is on
+        id: check
+        run: |
+          if curl -s --head --request GET http://reverendtranslated.duckdns.org | grep "200 OK" > /dev/null; then
+            echo "status=online" >> $GITHUB_OUTPUT
+          else
+            echo "status=offline" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create badge
+        uses: peter-evans/create-badge@v2
+        with:
+          label: ReverendTranslated
+          message: ${{ steps.check.outputs.status }}
+          color: ${{ steps.check.outputs.status == 'online' && 'brightgreen' || 'red' }}
+          path: siteon.svg
+
+      - name: Commit badge
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add siteon.svg
+          git commit -m "Update Google status badge" || echo "No changes to commit"
+          git push
