@@ -23,3 +23,5 @@ services:
       - "443:443"     # HTTPS
     depends_on:
       - flask-app
+    volumes:
+      - ./certificates:/etc/letsencrypt/live/reverendtranslated.duckdns.org

@@ -40,8 +40,6 @@ and then enter the site at `localhost:5000`
 - go inside the shell of the nginx container
 ```sh
 certbot certonly --non-interactive --agree-tos --email YOUREMAIL --preferred-challenges dns --authenticator dns-duckdns --dns-duckdns-token YOURTOKEN --dns-duckdns-propagation-seconds 60 -d "YOURSUBDOMAIN.duckdns.org"
-echo "0 */12 * * * root certbot renew --quiet --deploy-hook 'nginx -s reload'" > /etc/cron.d/certbot-renew && chmod 0644 /etc/cron.d/certbot-renew
-cron && nginx -g "daemon off;"
 nginx -s quit
 cd etc/nginx/conf.d/
 mv nginx.conf nginx.conf.disabled
@@ -64,10 +62,8 @@ As of now the project is still not really made to be used:
 > ***TODO***  
 > add a loading page  
 > add a check to see if the source or translation is less than 500 characters(or another way to check if it was unsuccessful)  
-> add https with let's encrypt  
 > implement github actions  
 > implement security features(protection from ddos)
-> copy the nginx configs instead of mounting them
 
 *This repository is open-source under the GPL 3.0 license, but that applies **only to the code**.  
 The translated text of *Reverend Insanity* included or produced by this project is **unauthorized and copyrighted** by the original author and publisher.  

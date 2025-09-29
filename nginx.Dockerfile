@@ -9,3 +9,8 @@ RUN apt-get update && apt-get install -y certbot \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --break-system-packages certbot_dns_duckdns
+
+COPY ./entrypoint_nginx.sh /nginxentrypoint/entrypoint.sh
+RUN chmod +x /nginxentrypoint/entrypoint.sh
+
+ENTRYPOINT [ "/nginxentrypoint/entrypoint.sh" ]
