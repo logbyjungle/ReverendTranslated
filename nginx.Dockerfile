@@ -1,7 +1,9 @@
 
 FROM nginx:latest
 
-COPY ./nginx.conf /etc/nginx/conf.d/nginx.conf
+RUN rm -f /etc/nginx/conf.d/default.conf
+
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./nginx.conf.https /etc/nginx/conf.d/nginx.conf.https
 
 RUN apt-get update && apt-get install -y certbot \
