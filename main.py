@@ -6,10 +6,6 @@ app = Flask(__name__)
 with open("languages.txt","r") as file:
     langs = eval(file.read())
 
-@app.before_request
-def driverstart():
-    startdriver()
-
 @app.route("/")
 def home():
     return render_template("main.html", mapping=langs)
@@ -30,4 +26,5 @@ def page(lang, chapter):
     return render_template("chapter.html",chapter=chapter,content=content)
 
 if __name__ == '__main__':
+    startdriver()
     app.run(debug=True,use_reloader=False,host="0.0.0.0")
