@@ -1,5 +1,5 @@
-from bot import translate_and_store, startdriver
-from flask import Flask, render_template
+from bot import translatewhole, startdriver
+from flask import Flask, render_template, stream_template
 
 app = Flask(__name__)
 
@@ -18,12 +18,7 @@ def page(lang, chapter):
     if lang not in langs.values():
         return "What language is " + lang + " exactly?"
 
-    translate_and_store(chapter,lang,0)
-
-    with open("translations/" + lang + "-" + chapter + ".txt", "r") as file:
-        content = file.read()
-
-    return render_template("chapter.html",chapter=chapter,content=content)
+    return stream_template("chapter.html",chapter=chapter,content=translatewhole(chapter,lang))
 
 if __name__ == '__main__':
     startdriver()

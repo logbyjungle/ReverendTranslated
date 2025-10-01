@@ -10,6 +10,8 @@ import undetected_chromedriver
 import os
 from bs4 import BeautifulSoup
 from pathlib import Path
+from selenium.webdriver.common.keys import Keys
+import re
 
 def in_docker():
     cgroup = Path('/proc/self/cgroup')
@@ -62,64 +64,34 @@ def translate(text,lang,quit = 1):
         )
     except Exception:
         try:
-            accept_all = WebDriverWait(driver, 5).until(
+            accept_all = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Accept all')]"))
             ) # raises an exception btw
 
             accept_all.click()
         except Exception:
             pass
-        copy_elem = WebDriverWait(driver, 5).until(
+        # goes to bottom of the page
+        elem = driver.find_element(By.TAG_NAME, "html")
+        elem.send_keys(Keys.END)
+        copy_elem = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label="Copy translation"]'))
         ) # raises exception
 
     copy_elem.click()
+    if not pyperclip.paste():
+        raise Exception("Failed to copy translation")
 
     if quit:
         stopdriver()
 
     return pyperclip.paste()
 
-
-def translatewhole(text,lang,quit=1):
-    startdriver()
-
-    translation = ""
-    splits = text.split("\n\n\n") 
-    splits_encoded = [urllib.parse.quote(split) for split in splits]
-
-    divisor = urllib.parse.quote("\n\n\n")
-
-    start = 0
-    chars = 0
-    for i in range(len(splits)):
-        if chars + len(splits_encoded[i]) > 4500:
-            to_translate = ""
-            for j in range(start,i):
-                to_translate += splits_encoded[j]
-                to_translate += divisor
-            translation += translate(to_translate,lang,0)
-            start = i
-            chars = 0
-        elif i == len(splits)-1:
-            to_translate = ""
-            for j in range(start,i+1):
-                to_translate += splits_encoded[j]
-                to_translate += divisor
-            translation += translate(to_translate,lang,0)
-        else:
-            chars += len(splits_encoded[i])
-    if quit:
-        stopdriver()
-    return translation
-    
-
 def scrape_chapter(chapter,quit=1):
-    startdriver()
-
     os.makedirs("sources",exist_ok=True)
     filename = "sources/" + str(chapter) + ".html"
     if not os.path.isfile(filename):
+        startdriver()
         driver.get(f"https://fantasylibrary.ink/novel/reverend-insanity-11/chapter/{chapter}")
 
         # Wait until the page is fully loaded
@@ -142,15 +114,49 @@ def scrape_chapter(chapter,quit=1):
 
     return "\n\n\n".join(paragraphs)
 
-def translate_and_store(chapter,lang,quit=1):
+def translatewhole(chapter,lang,quit=1):
+    text = scrape_chapter(chapter,0)
     os.makedirs("translations",exist_ok=True)
     filename = lang + "-" + str(chapter) + ".txt"
-    if not os.path.isfile("translations/" + filename) or not os.path.getsize("translations/" + filename):
-        with open("translations/" + filename, "w") as file:
-            file.write(translatewhole(scrape_chapter(chapter,0),lang,quit))
 
-        with open("translations/" + filename, "r") as file:
-            lines = file.readlines()
-        with open("translations/" + filename, "w") as file:
-            file.writelines(line for line in lines if "fantasylibrary" not in line and "🎉" not in line and "Reverend Insanity" not in line)
+    if os.path.isfile("translations/" + filename):
+        with open("translations/" + filename, 'r') as file:
+            return file.readlines()
 
+    startdriver()
+
+    splits = text.split("\n\n\n") 
+    splits_encoded = [urllib.parse.quote(split) for split in splits]
+
+    divisor = urllib.parse.quote("\n\n\n")
+
+    start = 0
+    chars = 0
+    with open("translations/" + filename, "w") as file:
+        for i in range(len(splits)):
+            if chars + len(splits_encoded[i]) > 4500:
+                to_translate = ""
+                for j in range(start,i):
+                    to_translate += splits_encoded[j]
+                    to_translate += divisor
+                line_s = translate(to_translate,lang,0)
+                line_s = re.sub(r'\n\s*\n+', '\n', line_s)
+                lines = line_s.splitlines()
+                lines = [line for line in lines if "fantasylibrary" not in line and "🎉" not in line and "Reverend Insanity" not in line]
+                file.writelines(lines)
+                yield lines
+                start = i
+                chars = 0
+            elif i == len(splits)-1:
+                to_translate = ""
+                for j in range(start,i+1):
+                    to_translate += splits_encoded[j]
+                    to_translate += divisor
+                lines = translate(to_translate,lang,0).splitlines()
+                lines = [line for line in lines if "fantasylibrary" not in line and "🎉" not in line and "Reverend Insanity" not in line]
+                file.writelines(lines)
+                yield lines
+            else:
+                chars += len(splits_encoded[i])
+    if quit:
+        stopdriver()
