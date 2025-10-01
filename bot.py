@@ -142,12 +142,13 @@ def scrape_chapter(chapter,quit=1):
 
     return "\n\n\n".join(paragraphs)
 
-def translate_and_store(chapter,lang):
+def translate_and_store(chapter,lang,quit=1):
     os.makedirs("translations",exist_ok=True)
     filename = lang + "-" + str(chapter) + ".txt"
     if not os.path.isfile("translations/" + filename) or not os.path.getsize("translations/" + filename):
         with open("translations/" + filename, "w") as file:
-            file.write(translatewhole(scrape_chapter(chapter,0),lang))
+            file.write(translatewhole(scrape_chapter(chapter,0),lang,quit))
+
         with open("translations/" + filename, "r") as file:
             lines = file.readlines()
         with open("translations/" + filename, "w") as file:
