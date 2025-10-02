@@ -33,7 +33,7 @@ def startdriver():
         options.add_argument("--shm-size=2g")
         options.add_argument("--window-size=1280,720")
         driver = undetected_chromedriver.Chrome(
-            service=Service(ChromeDriverManager().install()), options=options, version_main=139
+            service=Service(ChromeDriverManager().install()), options=options #, version_main=139
         )
         running = 1
 
