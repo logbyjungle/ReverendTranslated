@@ -11,6 +11,9 @@ services:
       - FLASK_APP=main.py
       - FLASK_RUN_HOST=0.0.0.0
       - DISPLAY=:99
+    volumes:
+      - ./translations:/translations
+      - ./sources:/sources
 
   nginx:
     build:
