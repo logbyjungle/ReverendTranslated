@@ -1,14 +1,26 @@
 from bot import translatewhole, startdriver
 from flask import Flask, render_template, stream_template
+import subprocess
 
 app = Flask(__name__)
 
 with open("languages.txt","r") as file:
     langs = eval(file.read())
 
+def get_version():
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            stderr=subprocess.DEVNULL
+        ).decode().strip()
+    except Exception:
+        return "Unknown commit"
+
+startdriver()
+
 @app.route("/")
 def home():
-    return render_template("main.html", mapping=langs)
+    return render_template("main.html", mapping=langs, version=get_version())
 
 @app.route("/<lang>/<chapter>")
 def page(lang, chapter):
@@ -21,5 +33,4 @@ def page(lang, chapter):
     return stream_template("chapter.html",chapter=chapter,content=translatewhole(chapter,lang,0))
 
 if __name__ == '__main__':
-    startdriver()
     app.run(debug=True,use_reloader=False,host="0.0.0.0")
