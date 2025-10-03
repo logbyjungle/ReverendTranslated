@@ -12,6 +12,8 @@ from bs4 import BeautifulSoup
 from pathlib import Path
 from selenium.webdriver.common.keys import Keys
 import re
+import subprocess
+import time
 
 def in_docker():
     cgroup = Path('/proc/self/cgroup')
@@ -21,6 +23,20 @@ if in_docker():
     os.environ["DISPLAY"] = ":99"
 
 running = 0
+
+def get_chrome_version():
+    try:
+        # Works for both google-chrome-stable and chromium
+        output = subprocess.check_output(["google-chrome-stable", "--version"]).decode()
+    except FileNotFoundError:
+        output = subprocess.check_output(["chromium", "--version"]).decode()
+    match = re.search(r"(\d+)\.", output)
+    if match:
+        version = match.group(1)
+    else:
+        raise Exception("chrome driver version not found")
+    print("using chrome driver version " + version)
+    return int(version)
 
 def startdriver():
     global running
@@ -33,7 +49,7 @@ def startdriver():
         options.add_argument("--shm-size=2g")
         options.add_argument("--window-size=1280,720")
         driver = undetected_chromedriver.Chrome(
-            service=Service(ChromeDriverManager().install()), options=options #, version_main=139
+            service=Service(ChromeDriverManager().install()), options=options , version_main=get_chrome_version()#, version_main=139
         )
         running = 1
 
@@ -80,7 +96,9 @@ def translate(text,lang,quit = 1):
 
     copy_elem.click()
     if not pyperclip.paste():
-        raise Exception("Failed to copy translation")
+        time.sleep(1)
+        if not pyperclip.paste():
+            raise Exception("Failed to copy translation")
 
     if quit:
         stopdriver()
@@ -121,7 +139,8 @@ def translatewhole(chapter,lang,quit=1):
 
     if os.path.isfile("translations/" + filename):
         with open("translations/" + filename, 'r') as file:
-            return file.readlines()
+            yield [line.strip('\n') for line in file]
+        return
 
     startdriver()
 
@@ -143,7 +162,7 @@ def translatewhole(chapter,lang,quit=1):
                 line_s = re.sub(r'\n\s*\n+', '\n', line_s)
                 lines = line_s.splitlines()
                 lines = [line for line in lines if "fantasylibrary" not in line and "🎉" not in line and "Reverend Insanity" not in line]
-                file.writelines(lines)
+                file.write('\n'.join(lines) + '\n')
                 yield lines
                 start = i
                 chars = 0

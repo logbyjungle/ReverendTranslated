@@ -18,7 +18,7 @@ def page(lang, chapter):
     if lang not in langs.values():
         return "What language is " + lang + " exactly?"
 
-    return stream_template("chapter.html",chapter=chapter,content=translatewhole(chapter,lang))
+    return stream_template("chapter.html",chapter=chapter,content=translatewhole(chapter,lang,0))
 
 if __name__ == '__main__':
     startdriver()
