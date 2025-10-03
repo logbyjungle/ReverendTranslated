@@ -16,6 +16,7 @@ packaging==25.0
 pyperclip==1.10.0
 PySocks==1.7.1
 python-dotenv==1.1.1
+PyVirtualDisplay==3.0
 requests==2.32.5
 selenium==4.35.0
 setuptools==80.9.0
