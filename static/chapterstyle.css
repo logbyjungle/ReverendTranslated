@@ -54,7 +54,7 @@ button, form, select {
     background-color: #f0f0f0;
 }
 
-button, form {
+select, button {
     box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
 }
 

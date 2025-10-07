@@ -129,10 +129,36 @@ function LightDark() {
     }
 }
 
+function changeFont(font) {
+    document.body.style.fontFamily = font;
+    localStorage.setItem("fontFamily", font);
+}
+
+function changeFontSize(size) {
+    document.querySelectorAll('.content').forEach(el => {
+        el.style.fontSize = size;
+        localStorage.setItem("fontSize", size);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
         document.body.classList.add("dark-mode");
+    }
+    const savedFont = localStorage.getItem("fontFamily");
+    if (savedFont) {
+        document.body.style.fontFamily = savedFont;
+        const fontSelector = document.getElementById('fontSelector');
+        if (fontSelector) fontSelector.value = savedFont;
+    }
+    const savedFontSize = localStorage.getItem("fontSize");
+    if (savedFontSize) {
+        document.querySelectorAll('.content').forEach(el => {
+            el.style.fontSize = savedFontSize;
+        });
+        const fontSizeSelector = document.getElementById('fontSizeSelector');
+        if (fontSizeSelector) fontSizeSelector.value = savedFontSize;
     }
 });
 
