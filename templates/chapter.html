@@ -14,11 +14,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&family=Inter&family=Lato&family=Merriweather&family=Crimson+Text&family=Lexend&family=Fira+Code&family=Source+Code+Pro&family=Comic+Neue&family=Patrick+Hand&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div style="position: relative; display: inline-block; margin-top: 20px;">
+        <div class="selectors">
             <button onclick="LightDark()">
                 <img class="lightdark" src="../static/mode.ico" alt="toggle theme" />
             </button>
-            <select id="fontSelector" onchange="changeFont(this.value)" style="position: absolute; right: 100%; margin-right: 50px; top: 50%; transform: translateY(-50%);">
+            <select id="fontSelector" onchange="changeFont(this.value)">
                 <option value="Arial, sans-serif">Arial</option>
                 <option value="'Open Sans', sans-serif">Open Sans</option>
                 <option value="Roboto, sans-serif">Roboto</option>
@@ -33,7 +33,7 @@
                 <option value="'Comic Neue', cursive">Comic Neue</option>
                 <option value="'Patrick Hand', cursive">Patrick Hand</option>
             </select>
-            <select id="fontSizeSelector" onchange="changeFontSize(this.value)" style="position: absolute; left: 100%; margin-left: 50px; top: 50%; transform: translateY(-50%);">
+            <select id="fontSizeSelector" onchange="changeFontSize(this.value)">
                 <option value="0.95rem">15px</option>
                 <option value="1rem">16px</option>
                 <option value="1.15rem">18px</option>
@@ -44,14 +44,14 @@
                 <option value="1.4rem">23px</option>
             </select>
         </div>
-        <div style="position: relative; width: 100%; height: 50px">
-            <form id="chapterForm" style="position: absolute; left: 50%; transform: translateX(-50%); margin: 0;">
+        <div class="middle">
+            <form id="chapterForm">
                 <select name="list" id="list">
                     <option value='none' id="defaultoptiontop">Choose a chapter</option>
                 </select>
             </form>
-            <button id="prevChapter" style="position: absolute; top: 0; right: 50%; transform: translateX(-90%);">Previous Chapter</button>
-            <button id="nextChapter" style="position: absolute; top: 0; left: 50%; transform: translateX(110%);">Next Chapter</button>
+            <button id="prevChapter">Previous Chapter</button>
+            <button id="nextChapter">Next Chapter</button>
         </div>
         <div class="content" id="content">
 {% for paragraph in content %}
@@ -66,8 +66,8 @@
                     <option value='none' id="defaultoptionbottom">Choose a chapter</option>
                 </select>
             </form>
-            <button id="prevChapterBottom" style="position: absolute; top: 0; right: 50%; transform: translateX(-90%);">Previous Chapter</button>
-            <button id="nextChapterBottom" style="position: absolute; top: 0; left: 50%; transform: translateX(110%);">Next Chapter</button>
+            <button id="prevChapterBottom">Previous Chapter</button>
+            <button id="nextChapterBottom">Next Chapter</button>
         </div>
         <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
