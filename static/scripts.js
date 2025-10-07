@@ -148,7 +148,6 @@ function redirectToPage() {
     const select = document.getElementById('lang');
     const value = select.value;
     if (value) {
-        // Redirect to /{dictionary value}/1
         window.location.href = `/${value}/1`;
     }
 }
