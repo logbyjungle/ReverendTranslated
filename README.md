@@ -49,7 +49,7 @@ In case you dont intend to use Duckdns here is the content of the script, just m
 certbot certonly --non-interactive --agree-tos --email YOUREMAIL --preferred-challenges dns --authenticator dns-duckdns --dns-duckdns-token "YOURTOKEN" --dns-duckdns-propagation-seconds 60 -d "YOURSUBDOMAIN.duckdns.org"
 nginx -s quit
 cd etc/nginx/conf.d/
-mv default.conf nginx.conf.disabled
+mv nginx.conf nginx.conf.disabled
 mv nginx.conf.https nginx.conf
 nginx -s reload
 ```  
