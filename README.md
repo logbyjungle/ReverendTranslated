@@ -74,8 +74,6 @@ As of now the project is still not really made to be used:
 > add github badges  
 > make the docker container avaiable easily  
 > make dark/light mode and buttons get activated as soon as the page starts loading  
-> add an options to make the user able to choose the font and it's size  
-> maybe dont copy every single file in the dockerfile  
 
 *This repository is open-source under the GPL 3.0 license, but that applies **only to the code**.  
 The translated text of *Reverend Insanity* included or produced by this project is **unauthorized and copyrighted** by the original author and publisher.  

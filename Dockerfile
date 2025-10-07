@@ -21,7 +21,7 @@ ENV FLASK_APP=main.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV DISPLAY=:99
 
-COPY ./entrypoint.sh /docker-flask/entrypoint.sh
+COPY entrypoint.sh .
 RUN chmod +x /docker-flask/entrypoint.sh
 
 ENTRYPOINT [ "/docker-flask/entrypoint.sh" ]
