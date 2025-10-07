@@ -3,8 +3,10 @@ FROM nginx:latest
 
 RUN rm -f /etc/nginx/conf.d/default.conf
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./nginx.conf.https /etc/nginx/conf.d/nginx.conf.https
+COPY ./nginx.conf.template /etc/nginx/conf.d/default.conf.template
+COPY ./nginx.conf.https.template /etc/nginx/conf.d/nginx.conf.https.template
+COPY ./activate_https.sh /activate_https.sh
+RUN chmod +x /activate_https.sh
 
 RUN apt-get update && apt-get install -y certbot \
     python3-certbot-nginx python3-minimal python3-pip \

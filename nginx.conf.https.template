@@ -1,7 +1,7 @@
 
 server {
     listen 80;
-    server_name reverendtranslated.duckdns.org;
+    server_name ${DOMAIN};
     
     # Redirect all traffic to HTTPS
     return 301 https://$host$request_uri;
@@ -9,10 +9,10 @@ server {
 
 server {
     listen 443 ssl;
-    server_name reverendtranslated.duckdns.org;
+    server_name ${DOMAIN};
 
-    ssl_certificate /etc/letsencrypt/live/reverendtranslated.duckdns.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/reverendtranslated.duckdns.org/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
 
     location / {
         proxy_pass http://flask-app:5000;

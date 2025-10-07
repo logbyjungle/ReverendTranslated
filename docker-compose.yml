@@ -11,9 +11,10 @@ services:
       - FLASK_APP=main.py
       - FLASK_RUN_HOST=0.0.0.0
       - DISPLAY=:99
-      - TZ=Europe/Rome
 
   nginx:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: nginx.Dockerfile
@@ -26,5 +27,3 @@ services:
       - flask-app
     volumes:
       - ./etc/letsencrypt:/etc/letsencrypt
-    environment:
-      - TZ=Europe/Rome

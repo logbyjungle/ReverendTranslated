@@ -1,7 +1,7 @@
 
 server {
     listen 80;
-    server_name reverendtranslated.duckdns.org;
+    server_name ${DOMAIN};
 
     location / {
         proxy_pass http://flask-app:5000;
