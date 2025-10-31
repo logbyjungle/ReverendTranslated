@@ -47,7 +47,6 @@ EMAIL=youremail@gmail.com # its required apparently
 In case you dont intend to use Duckdns here is the content of the script, just modify the certbot part  
 ```sh
 certbot certonly --non-interactive --agree-tos --email YOUREMAIL --preferred-challenges dns --authenticator dns-duckdns --dns-duckdns-token "YOURTOKEN" --dns-duckdns-propagation-seconds 60 -d "YOURSUBDOMAIN.duckdns.org"
-nginx -s quit
 cd etc/nginx/conf.d/
 mv nginx.conf nginx.conf.disabled
 mv nginx.conf.https nginx.conf
@@ -69,7 +68,7 @@ As of now the project is still not really made to be used:
 > ***TODO***  
 > add a loading page  
 > add a check to see if the source or translation is less than 500 characters(or another way to check if it was unsuccessful)  
-> implement github actions  
+> implement github actions(deploy containers and tests if requests work, publish to docker and add docker compose to releases)  
 > implement security features(protection from ddos)  
 > add github badges  
 > make the docker container avaiable easily  
