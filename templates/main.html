@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Important for notches / safe areas on iOS -->
+ 
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
     <title>ReverendTranslated — Home</title>
     <meta name="description" content="Multilingual chapter reader for the ReverendTranslated project." />
     <meta name="theme-color" content="#0f1115" />
 
-    <!-- Apply dark mode ASAP to avoid flash -->
+ 
     <script>
       (function () {
         try { if (localStorage.getItem("theme") === "dark") {
@@ -21,10 +21,10 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}" />
     <link rel="canonical" href="{{ request.url_root | trim('/') }}" />
 
-    <!-- Main CSS (unchanged) -->
+
     <link rel="stylesheet" href="{{ url_for('static', filename='mainstyle.css') }}" />
 
-    <!-- Selectize for #lang (only on home) -->
+    
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
           integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous">
@@ -32,14 +32,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
             integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous" defer></script>
 
-    <!-- Optional prefetch: first chapter in a default language -->
     {% if mapping and mapping.get('English') %}
       <link rel="prefetch" href="/{{ mapping['English'] }}/1">
     {% endif %}
   </head>
 
   <body>
-    <!-- Apply font settings as early as possible (right after <body>) -->
+  
     <script>
       (function () {
         try {
@@ -105,10 +104,10 @@
       </div>
     </noscript>
 
-    <!-- Main JS (unchanged) -->
+
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 
-    <!-- Accessibility utility -->
+   
     <style>
       .sr-only {
         position: absolute !important;
