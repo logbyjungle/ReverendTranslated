@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="og:type" content="website">
+        <meta name="og:title" content="ReverendTranslated">
+        <meta name="og:description" content="Reverend Insanity Chapter {{ chapter }}">
+        <meta name="og:image" content="https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/main/static/icon.png">
+        <meta charset="UTF-8">
+        <title>Reverend Insanity Chapter {{ chapter }}</title>
+        <link rel="stylesheet" href="../static/chapterstyle.css">
+        <link rel="icon" type="image/png" href="../static/icon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&family=Inter&family=Lato&family=Merriweather&family=Crimson+Text&family=Lexend&family=Fira+Code&family=Source+Code+Pro&family=Comic+Neue&family=Patrick+Hand&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="selectors">
+            <a href="/" class="home-button" title="Voltar para a página principal">Home</a> <button onclick="LightDark()">
+                <img class="lightdark" src="../static/mode.ico" alt="toggle theme" />
+            </button>
+            <select id="fontSelector" onchange="changeFont(this.value)">
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Open Sans', sans-serif">Open Sans</option>
+                <option value="Roboto, sans-serif">Roboto</option>
+                <option value="Inter, sans-serif">Inter</option>
+                <option value="Lato, sans-serif">Lato</option>
+                <option value="Georgia, serif">Georgia</option>
+                <option value="Merriweather, serif">Merriweather</option>
+                <option value="'Crimson Text', serif">Crimson Text</option>
+                <option value="'Lexend', sans-serif">Lexend</option>
+                <option value="'Fira Code', monospace">Fira Code</option>
+                <option value="'Source Code Pro', monospace">Source Code Pro</option>
+                <option value="'Comic Neue', cursive">Comic Neue</option>
+                <option value="'Patrick Hand', cursive">Patrick Hand</option>
+            </select>
+            <select id="fontSizeSelector" onchange="changeFontSize(this.value)">
+                <option value="0.95rem">15px</option>
+                <option value="1rem">16px</option>
+                <option value="1.15rem">18px</option>
+                <option value="1.2rem" selected>19px - Default</option>
+                <option value="1.25rem">20px</option>
+                <option value="1.3rem">21px</option>
+                <option value="1.35rem">22px</option>
+                <option value="1.4rem">23px</option>
+            </select>
+        </div>
+        <div class="middle">
+            <form id="chapterForm">
+                <select name="list" id="list">
+                    <option value='none' id="defaultoptiontop">Choose a chapter</option>
+                </select>
+            </form>
+            <button id="prevChapter">Previous Chapter</button>
+            <button id="nextChapter">Next Chapter</button>
+        </div>
+        <div class="content" id="content">
+{% for paragraph in content %}
+{% for line in paragraph %}
+{{ line }}
+{% endfor %}
+{% endfor %}
+        </div>
+        <div style="position: relative; width: 100%; height: 50px">
+            <form id="chapterFormBottom" style="position: absolute; left: 50%; transform: translateX(-50%); margin: 0;">
+                <select name="listbottom" id="listbottom">
+                    <option value='none' id="defaultoptionbottom">Choose a chapter</option>
+                </select>
+            </form>
+            <button id="prevChapterBottom">Previous Chapter</button>
+            <button id="nextChapterBottom">Next Chapter</button>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    </body>
+</html>
