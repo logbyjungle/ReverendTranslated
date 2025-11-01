@@ -1,74 +1,159 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta name="og:type" content="website">
-        <meta name="og:title" content="ReverendTranslated">
-        <meta name="og:description" content="Reverend Insanity Chapter {{ chapter }}">
-        <meta name="og:image" content="https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/main/static/icon.png">
-        <meta charset="UTF-8">
-        <title>Reverend Insanity Chapter {{ chapter }}</title>
-        <link rel="stylesheet" href="../static/chapterstyle.css">
-        <link rel="icon" type="image/png" href="../static/icon.png">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&family=Inter&family=Lato&family=Merriweather&family=Crimson+Text&family=Lexend&family=Fira+Code&family=Source+Code+Pro&family=Comic+Neue&family=Patrick+Hand&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <div class="selectors">
-            <a href="/" class="home-button" title="Voltar para a página principal">Home</a> <button onclick="LightDark()">
-                <img class="lightdark" src="../static/mode.ico" alt="toggle theme" />
-            </button>
-            <select id="fontSelector" onchange="changeFont(this.value)">
-                <option value="Arial, sans-serif">Arial</option>
-                <option value="'Open Sans', sans-serif">Open Sans</option>
-                <option value="Roboto, sans-serif">Roboto</option>
-                <option value="Inter, sans-serif">Inter</option>
-                <option value="Lato, sans-serif">Lato</option>
-                <option value="Georgia, serif">Georgia</option>
-                <option value="Merriweather, serif">Merriweather</option>
-                <option value="'Crimson Text', serif">Crimson Text</option>
-                <option value="'Lexend', sans-serif">Lexend</option>
-                <option value="'Fira Code', monospace">Fira Code</option>
-                <option value="'Source Code Pro', monospace">Source Code Pro</option>
-                <option value="'Comic Neue', cursive">Comic Neue</option>
-                <option value="'Patrick Hand', cursive">Patrick Hand</option>
-            </select>
-            <select id="fontSizeSelector" onchange="changeFontSize(this.value)">
-                <option value="0.95rem">15px</option>
-                <option value="1rem">16px</option>
-                <option value="1.15rem">18px</option>
-                <option value="1.2rem" selected>19px - Default</option>
-                <option value="1.25rem">20px</option>
-                <option value="1.3rem">21px</option>
-                <option value="1.35rem">22px</option>
-                <option value="1.4rem">23px</option>
-            </select>
-        </div>
-        <div class="middle">
-            <form id="chapterForm">
-                <select name="list" id="list">
-                    <option value='none' id="defaultoptiontop">Choose a chapter</option>
-                </select>
-            </form>
-            <button id="prevChapter">Previous Chapter</button>
-            <button id="nextChapter">Next Chapter</button>
-        </div>
-        <div class="content" id="content">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <title>ReverendTranslated — Chapter {{ chapter }}</title>
+    <meta name="description" content="Reading chapter {{ chapter }} in ReverendTranslated." />
+    <meta name="theme-color" content="#0f1115" />
+
+
+    <script>
+      (function () {
+        try { if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark-mode");
+        }} catch(e) {}
+      })();
+    </script>
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chapterstyle.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&family=Inter&family=Lato&family=Merriweather&family=Crimson+Text&family=Lexend&family=Fira+Code&family=Source+Code+Pro&family=Comic+Neue&family=Patrick+Hand&display=swap" rel="stylesheet">
+  </head>
+
+ 
+  <body data-max-chapter="{{ max_chapter|default(2334) }}">
+  
+    <script>
+      (function () {
+        try {
+          var f = localStorage.getItem("fontFamily");
+          if (f) document.body.style.fontFamily = f;
+          var fs = localStorage.getItem("fontSize");
+          if (fs) {
+            var s = document.createElement("style");
+            s.textContent = ".content{font-size:"+fs+"}";
+            document.head.appendChild(s);
+          }
+        } catch(e) {}
+      })();
+    </script>
+
+   
+    <div class="selectors top" role="navigation" aria-label="Top navigation and preferences"
+         style="padding-top:max(10px, env(safe-area-inset-top));">
+      <div class="group" style="gap:8px;">
+        <a href="/" class="home-button" title="Back to main page">Back to Main Page</a>
+        <button type="button" aria-label="Toggle light/dark theme" onclick="LightDark()">
+          <img class="lightdark" src="{{ url_for('static', filename='mode.ico') }}" alt="Toggle theme" />
+        </button>
+      </div>
+
+      <div class="group" style="gap:8px;">
+     
+        <label class="sr-only" for="fontSelector">Font family</label>
+        <select id="fontSelector" onchange="changeFont(this.value)" title="Change font">
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="'Open Sans', sans-serif">Open Sans</option>
+          <option value="Roboto, sans-serif">Roboto</option>
+          <option value="Inter, sans-serif">Inter</option>
+          <option value="Lato, sans-serif">Lato</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="Merriweather, serif">Merriweather</option>
+          <option value="'Crimson Text', serif">Crimson Text</option>
+          <option value="'Lexend', sans-serif">Lexend</option>
+          <option value="'Fira Code', monospace">Fira Code</option>
+          <option value="'Source Code Pro', monospace">Source Code Pro</option>
+          <option value="'Comic Neue', cursive">Comic Neue</option>
+          <option value="'Patrick Hand', cursive">Patrick Hand</option>
+        </select>
+
+        <label class="sr-only" for="fontSizeSelector">Font size</label>
+        <select id="fontSizeSelector" onchange="changeFontSize(this.value)" title="Change font size">
+          <option value="0.95rem">15px</option>
+          <option value="1rem">16px</option>
+          <option value="1.15rem">18px</option>
+          <option value="1.2rem" selected>19px — Default</option>
+          <option value="1.25rem">20px</option>
+          <option value="1.3rem">21px</option>
+          <option value="1.35rem">22px</option>
+          <option value="1.4rem">23px</option>
+        </select>
+      </div>
+
+      <div class="group" style="gap:8px;">
+  
+        <form id="chapterForm" onsubmit="return false;">
+          <label class="sr-only" for="list">Chapter</label>
+          <select name="list" id="list">
+            <option value="none" id="defaultoptiontop">Choose a chapter</option>
+          </select>
+        </form>
+        <button id="prevChapter" type="button" aria-label="Previous chapter">Previous</button>
+        <button id="nextChapter" type="button" aria-label="Next chapter">Next</button>
+      </div>
+    </div>
+
+    <header class="content" aria-label="Chapter header" style="margin-top:24px;">
+      <h1 style="margin-bottom:8px;">Chapter {{ chapter }}</h1>
+      <p style="margin:0; color: var(--control-text);">
+        <small>Progress: {{ chapter }} / {{ max_chapter|default(2334) }}</small>
+      </p>
+    </header>
+
+    
+    <article class="content" id="content" role="article" aria-label="Chapter content">
 {% for paragraph in content %}
 {% for line in paragraph %}
 {{ line }}
 {% endfor %}
 {% endfor %}
-        </div>
-        <div style="position: relative; width: 100%; height: 50px">
-            <form id="chapterFormBottom" style="position: absolute; left: 50%; transform: translateX(-50%); margin: 0;">
-                <select name="listbottom" id="listbottom">
-                    <option value='none' id="defaultoptionbottom">Choose a chapter</option>
-                </select>
-            </form>
-            <button id="prevChapterBottom">Previous Chapter</button>
-            <button id="nextChapterBottom">Next Chapter</button>
-        </div>
-        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-    </body>
+    </article>
+
+
+    {% if note %}
+    <aside class="content" aria-label="Translator note" style="opacity:.95;">
+      <hr style="border:none; height:1px; background:var(--control-border); margin:16px 0;">
+      <h2 style="margin:0 0 8px 0; font-size:1.05em;">Note</h2>
+      <p style="margin:0;">{{ note }}</p>
+    </aside>
+    {% endif %}
+
+    <div class="selectors bottom" role="navigation" aria-label="Bottom navigation"
+         style="padding-bottom:max(10px, env(safe-area-inset-bottom));">
+      <div class="group" style="gap:8px;">
+        <form id="chapterFormBottom" onsubmit="return false;">
+          <label class="sr-only" for="listbottom">Chapter</label>
+          <select name="listbottom" id="listbottom">
+            <option value="none" id="defaultoptionbottom">Choose a chapter</option>
+          </select>
+        </form>
+        <button id="prevChapterBottom" type="button" aria-label="Previous chapter">Previous</button>
+        <button id="nextChapterBottom" type="button" aria-label="Next chapter">Next</button>
+      </div>
+    </div>
+
+  
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- main JS (unchanged) -->
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+    
+    <style>
+      .sr-only {
+        position: absolute !important;
+        width: 1px; height: 1px;
+        padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+      }
+    </style>
+
+    <noscript>
+      <div class="content" style="margin-top:16px;">
+        JavaScript is disabled: use the selectors to jump to a specific chapter.
+      </div>
+    </noscript>
+  </body>
 </html>
