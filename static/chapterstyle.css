@@ -1,158 +1,170 @@
-/* ==== chapterstyle.css ==== */
-/* Estilo para a página de leitura (chapter.html) */
+/* =============================
+   chapterstyle.css — Página de leitura de capítulos
+   Tema por variáveis + barra “sticky” de controles
+   ============================= */
 
-/* --- Variáveis de Tema (Modo Claro e Escuro) --- */
+/* —— Variáveis de tema (claro) —— */
 :root {
-  /* Modo Claro (Default) */
   --bg-color: #ffffff;
   --text-color: #222222;
-  --control-bg: #f0f0f0;
-  --control-border: #ccc;
-  --control-text: #333;
-  --link-color: #007bff;
-  --button-hover-bg: #e0e0e0;
+  --control-bg: #f5f7fa;
+  --control-border: rgba(0,0,0,0.08);
+  --control-text: #222222;
+  --link-color: #2864ff;
+  --button-hover-bg: rgba(0,0,0,0.06);
+  --ring: #58a6ff;
 }
 
-/* O JavaScript vai adicionar a classe "dark-mode" ao <body> */
-body.dark-mode {
-  /* Modo Escuro */
+/* Respeita o tema do sistema (se usuário não escolheu no botão) */
+@media (prefers-color-scheme: dark) {
+  :root:not(.dark-mode) {
+    --bg-color: #1e1e1e;
+    --text-color: #f1f1f1;
+    --control-bg: #2a2f36;
+    --control-border: rgba(255,255,255,0.12);
+    --control-text: #f1f1f1;
+    --link-color: #58a6ff;
+    --button-hover-bg: rgba(255,255,255,0.08);
+  }
+}
+
+/* Tema forçado via JS: classe no <html> (ou :root) */
+:root.dark-mode,
+html.dark-mode {
   --bg-color: #1e1e1e;
   --text-color: #f1f1f1;
-  --control-bg: #333333;
-  --control-border: #555555;
+  --control-bg: #2a2f36;
+  --control-border: rgba(255,255,255,0.12);
   --control-text: #f1f1f1;
   --link-color: #58a6ff;
-  --button-hover-bg: #444444;
+  --button-hover-bg: rgba(255,255,255,0.08);
 }
-/* --- Fim das Variáveis --- */
 
+/* —— Reset sutil —— */
+*, *::before, *::after { box-sizing: border-box; }
 
-/* Estilo geral do corpo */
+/* —— Base —— */
+html, body { height: 100%; }
+
 body {
-  font-family: 'Georgia', 'Merriweather', serif; /* Fonte boa para leitura */
-  font-size: 1.2rem; /* Tamanho padrão (que será mudado pelo JS) */
-  line-height: 1.7; /* Espaçamento entre linhas, bom para leitura */
-  
-  /* Aplica as variáveis de tema */
+  margin: 0;
   background-color: var(--bg-color);
   color: var(--text-color);
-  
-  transition: background-color 0.3s, color 0.3s;
-  margin: 0;
-  padding: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  line-height: 1.6;
 }
 
-/* Container do conteúdo de texto principal */
+/* Conteúdo do capítulo: serifada para leitura confortável */
 .content {
-  max-width: 800px; /* Limita a largura do texto para fácil leitura */
-  margin: 20px auto; /* Centraliza o texto */
-  padding: 0 20px;
+  font-family: Georgia, "Times New Roman", Times, "Noto Serif", "Merriweather", serif;
+  font-size: 1.125rem;
+  max-width: 80ch;
+  margin: 72px auto 96px;
+  padding: 0 16px;
 }
 
-/* --- Controles (Topo) --- */
+/* Links */
+.content a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+.content a:hover { text-decoration: underline; }
+
+/* —— Barra de controles (topo/rodapé) —— */
 .selectors {
+  position: sticky;
+  z-index: 20;
   display: flex;
-  flex-wrap: wrap; /* ! IMPORTANTE: Isso resolve o item 2 da issue! */
+  gap: 10px;
   align-items: center;
   justify-content: center;
-  padding: 15px;
-  border-bottom: 1px solid var(--control-border);
-  
-  /* Barra de controles grudenta no topo */
-  position: sticky;
-  top: 0;
-  
-  /* Fundo para não deixar o texto passar por baixo */
-  background-color: var(--bg-color); 
-  z-index: 10;
-  gap: 10px; /* Espaçamento entre os botões */
-}
-
-/* Estilo unificado para botões e selects */
-.selectors button,
-.selectors select,
-.home-button {
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  
-  /* Aplica as variáveis de tema */
+  padding: 10px 12px;
   background-color: var(--control-bg);
   color: var(--control-text);
-  border: 1px solid var(--control-border);
-  transition: background-color 0.2s;
+  border-bottom: 1px solid var(--control-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
-.selectors button:hover,
-.selectors select:hover,
-.home-button:hover {
-  background-color: var(--button-hover-bg);
+.selectors.top { top: 0; }
+.selectors.bottom {
+  bottom: 0;
+  border-top: 1px solid var(--control-border);
+  border-bottom: none;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
 }
 
-/* Estilo específico para o botão "Home" (que é um link <a>) */
-.home-button {
-  text-decoration: none; /* Remove sublinhado do link */
-  font-weight: bold;
-}
-
-/* Ajusta o botão de modo escuro */
-.lightdark {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-}
-
-/* --- Navegação de Capítulos (Meio e Fim) --- */
-.middle,
-.chapterFormBottom {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px; /* Espaçamento */
-  margin: 20px 0;
-  padding: 10px;
-}
-
-/* (Oculta o form de baixo, já que os seletores de capítulo 
-   estão duplicados e dentro de um form) */
-#chapterFormBottom {
-  margin: 0;
-}
-
-/* Botões de Próximo/Anterior */
+/* Botões e selects */
+.selectors button,
 #prevChapter, #nextChapter,
 #prevChapterBottom, #nextChapterBottom {
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: var(--control-bg);
+  background: transparent;
   color: var(--control-text);
   border: 1px solid var(--control-border);
-  transition: background-color 0.2s;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.06s ease;
+  min-width: 44px;
+  min-height: 36px;
 }
-
+.selectors button:hover,
 #prevChapter:hover, #nextChapter:hover,
 #prevChapterBottom:hover, #nextChapterBottom:hover {
-  background-color: var(--button-hover-bg);
+  background: var(--button-hover-bg);
+}
+.selectors button:active,
+#prevChapter:active, #nextChapter:active,
+#prevChapterBottom:active, #nextChapterBottom:active {
+  transform: translateY(1px);
 }
 
-/* Ajuste para telas pequenas (celulares) */
-@media (max-width: 600px) {
-  .content {
-    padding: 0 15px;
-    font-size: 1.1rem; /* Aumenta um pouco a fonte base em mobile */
-  }
+.selectors select,
+#list, #listbottom, #lang {
+  border: 1px solid var(--control-border);
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding: 8px 10px;
+  border-radius: 10px;
+  min-width: 140px;
+  max-width: 50vw;
+  appearance: none;
+}
 
+/* Acessibilidade: foco visível */
+.selectors button:focus-visible,
+.selectors select:focus-visible,
+#prevChapter:focus-visible, #nextChapter:focus-visible,
+#prevChapterBottom:focus-visible, #nextChapterBottom:focus-visible,
+.home-button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Responsivo */
+@media (max-width: 640px) {
+  .content { font-size: 1.05rem; margin: 64px auto 84px; }
   .selectors {
-    padding: 10px;
-    justify-content: space-around; /* Espalha melhor os botões */
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 10px;
   }
+  .selectors button,
+  #prevChapter, #nextChapter,
+  #prevChapterBottom, #nextChapterBottom,
+  .selectors select, #list, #listbottom {
+    min-height: 40px;
+    flex: 1 1 auto;
+  }
+  .selectors .group {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+}
 
-  .middle {
-    flex-direction: column; /* Bota os botões um em cima do outro */
-  }
+/* Impressão: só o conteúdo do capítulo, sem barras */
+@media print {
+  .selectors { display: none !important; }
+  body { background: #fff; color: #000; }
+  .content { margin: 0; font-size: 12pt; }
 }
