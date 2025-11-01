@@ -1,34 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta name="og:type" content="website">
-        <meta name="og:title" content="ReverendTranslated">
-        <meta name="og:description" content="A MTL Reverend Insanity translation for all languages">
-        <meta name="og:image" content="https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/main/static/icon.png">
-        <meta charset="UTF-8">
-        <title>ReverendTranslated</title>
-        <link rel="icon" type="image/png" href="../static/icon.png">
-        <link rel="stylesheet" href="../static/mainstyle.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    </head>
-    <body>
-        <div class="languages-selection">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
-            <select name="lang" id="lang" placeholder="Select a language" onchange="redirectToPage()">
-                <option value="" disabled selected></option>
-                {% for key, value in mapping.items() %}
-                <option value="{{ value }}">{{ key }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div>
-            <p>This project has not been finalized yet, as of now its just enough to be working</p>
-            <p>If you are interested in contributing to the project you can check it out <a href="https://github.com/logbyjungle/ReverendTranslated">here</a></p>
-            <p><img src="static/icon.png" alt="perseverance" width="807" height="807"></p>
-            <p>{{ version }}
-        </div>
-        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Important for notches / safe areas on iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <title>ReverendTranslated — Home</title>
+    <meta name="description" content="Multilingual chapter reader for the ReverendTranslated project." />
+    <meta name="theme-color" content="#0f1115" />
+
+    <!-- Apply dark mode ASAP to avoid flash -->
+    <script>
+      (function () {
+        try { if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark-mode");
+        }} catch(e) {}
+      })();
+    </script>
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}" />
+    <link rel="canonical" href="{{ request.url_root | trim('/') }}" />
+
+    <!-- Main CSS (unchanged) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='mainstyle.css') }}" />
+
+    <!-- Selectize for #lang (only on home) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
+          integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+            integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous" defer></script>
+
+    <!-- Optional prefetch: first chapter in a default language -->
+    {% if mapping and mapping.get('English') %}
+      <link rel="prefetch" href="/{{ mapping['English'] }}/1">
+    {% endif %}
+  </head>
+
+  <body>
+    <!-- Apply font settings as early as possible (right after <body>) -->
+    <script>
+      (function () {
+        try {
+          var f = localStorage.getItem("fontFamily");
+          if (f) document.body.style.fontFamily = f;
+          var fs = localStorage.getItem("fontSize");
+          if (fs) {
+            var s = document.createElement("style");
+            s.textContent = ".content{font-size:"+fs+"}";
+            document.head.appendChild(s);
+          }
+        } catch(e) {}
+      })();
+    </script>
+
+    <main class="home-card" role="main">
+      <header>
+        <img src="{{ url_for('static', filename='icon.png') }}"
+             alt="Project icon for ReverendTranslated" width="128" height="128" loading="lazy">
+        <h1>ReverendTranslated</h1>
+        <p>Read chapters in multiple languages with saved theme and typography preferences.</p>
+      </header>
+
+      <section aria-labelledby="languages-title" style="margin-top: 18px;">
+        <h2 id="languages-title">Choose a language</h2>
+        <p style="margin: 6px 0 12px;">Selecting a language takes you to chapter 1.</p>
+        <label class="sr-only" for="lang">Language</label>
+        <select name="lang" id="lang" placeholder="Select a language" onchange="redirectToPage()">
+          <option value="" disabled selected>Select…</option>
+          {% for name, slug in mapping.items() %}
+            <option value="{{ slug }}">{{ name }}</option>
+          {% endfor %}
+        </select>
+      </section>
+
+      <section aria-labelledby="how-it-works" style="margin-top: 24px; text-align:left; max-width:620px; margin-inline:auto;">
+        <h2 id="how-it-works">How it works</h2>
+        <ul>
+          <li>On chapter pages, use <em>Previous</em>/<em>Next</em> or jump via the chapter selector.</li>
+          <li>Keyboard shortcuts: ← previous chapter, → next chapter.</li>
+          <li>Your theme, font, and font size are saved in your browser.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="links" style="margin-top: 24px;">
+        <h2 id="links">Links</h2>
+        <p>
+          Repository: <a href="https://github.com/logbyjungle/ReverendTranslated" rel="noopener noreferrer">GitHub</a>
+        </p>
+        <p>Version: <strong>{{ version }}</strong></p>
+      </section>
+
+      <footer style="margin-top: 28px;">
+        <small class="muted">
+          Tip: your system theme may auto-apply. The theme button overrides it.
+        </small>
+      </footer>
+    </main>
+
+    <noscript>
+      <div class="home-card" style="margin-top: 16px;">
+        JavaScript is disabled. Enable it to navigate chapters and save reading preferences.
+      </div>
+    </noscript>
+
+    <!-- Main JS (unchanged) -->
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+    <!-- Accessibility utility -->
+    <style>
+      .sr-only {
+        position: absolute !important;
+        width: 1px; height: 1px;
+        padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+      }
+      .muted { color: var(--muted); }
+    </style>
+  </body>
 </html>
