@@ -1,0 +1,158 @@
+/* ==== chapterstyle.css ==== */
+/* Estilo para a página de leitura (chapter.html) */
+
+/* --- Variáveis de Tema (Modo Claro e Escuro) --- */
+:root {
+  /* Modo Claro (Default) */
+  --bg-color: #ffffff;
+  --text-color: #222222;
+  --control-bg: #f0f0f0;
+  --control-border: #ccc;
+  --control-text: #333;
+  --link-color: #007bff;
+  --button-hover-bg: #e0e0e0;
+}
+
+/* O JavaScript vai adicionar a classe "dark-mode" ao <body> */
+body.dark-mode {
+  /* Modo Escuro */
+  --bg-color: #1e1e1e;
+  --text-color: #f1f1f1;
+  --control-bg: #333333;
+  --control-border: #555555;
+  --control-text: #f1f1f1;
+  --link-color: #58a6ff;
+  --button-hover-bg: #444444;
+}
+/* --- Fim das Variáveis --- */
+
+
+/* Estilo geral do corpo */
+body {
+  font-family: 'Georgia', 'Merriweather', serif; /* Fonte boa para leitura */
+  font-size: 1.2rem; /* Tamanho padrão (que será mudado pelo JS) */
+  line-height: 1.7; /* Espaçamento entre linhas, bom para leitura */
+  
+  /* Aplica as variáveis de tema */
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container do conteúdo de texto principal */
+.content {
+  max-width: 800px; /* Limita a largura do texto para fácil leitura */
+  margin: 20px auto; /* Centraliza o texto */
+  padding: 0 20px;
+}
+
+/* --- Controles (Topo) --- */
+.selectors {
+  display: flex;
+  flex-wrap: wrap; /* ! IMPORTANTE: Isso resolve o item 2 da issue! */
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-bottom: 1px solid var(--control-border);
+  
+  /* Barra de controles grudenta no topo */
+  position: sticky;
+  top: 0;
+  
+  /* Fundo para não deixar o texto passar por baixo */
+  background-color: var(--bg-color); 
+  z-index: 10;
+  gap: 10px; /* Espaçamento entre os botões */
+}
+
+/* Estilo unificado para botões e selects */
+.selectors button,
+.selectors select,
+.home-button {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  
+  /* Aplica as variáveis de tema */
+  background-color: var(--control-bg);
+  color: var(--control-text);
+  border: 1px solid var(--control-border);
+  transition: background-color 0.2s;
+}
+
+.selectors button:hover,
+.selectors select:hover,
+.home-button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+/* Estilo específico para o botão "Home" (que é um link <a>) */
+.home-button {
+  text-decoration: none; /* Remove sublinhado do link */
+  font-weight: bold;
+}
+
+/* Ajusta o botão de modo escuro */
+.lightdark {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+/* --- Navegação de Capítulos (Meio e Fim) --- */
+.middle,
+.chapterFormBottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Espaçamento */
+  margin: 20px 0;
+  padding: 10px;
+}
+
+/* (Oculta o form de baixo, já que os seletores de capítulo 
+   estão duplicados e dentro de um form) */
+#chapterFormBottom {
+  margin: 0;
+}
+
+/* Botões de Próximo/Anterior */
+#prevChapter, #nextChapter,
+#prevChapterBottom, #nextChapterBottom {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--control-bg);
+  color: var(--control-text);
+  border: 1px solid var(--control-border);
+  transition: background-color 0.2s;
+}
+
+#prevChapter:hover, #nextChapter:hover,
+#prevChapterBottom:hover, #nextChapterBottom:hover {
+  background-color: var(--button-hover-bg);
+}
+
+/* Ajuste para telas pequenas (celulares) */
+@media (max-width: 600px) {
+  .content {
+    padding: 0 15px;
+    font-size: 1.1rem; /* Aumenta um pouco a fonte base em mobile */
+  }
+
+  .selectors {
+    padding: 10px;
+    justify-content: space-around; /* Espalha melhor os botões */
+  }
+
+  .middle {
+    flex-direction: column; /* Bota os botões um em cima do outro */
+  }
+}
