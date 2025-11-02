@@ -29,7 +29,6 @@
 
       <div class="group" style="gap:8px;">
      
-        <label class="sr-only" for="fontSelector">Font family</label>
         <select id="fontSelector" onchange="changeFont(this.value)" title="Change font">
           <option value="Arial, sans-serif">Arial</option>
           <option value="'Open Sans', sans-serif">Open Sans</option>
@@ -46,7 +45,6 @@
           <option value="'Patrick Hand', cursive">Patrick Hand</option>
         </select>
 
-        <label class="sr-only" for="fontSizeSelector">Font size</label>
         <select id="fontSizeSelector" onchange="changeFontSize(this.value)" title="Change font size">
           <option value="0.95rem">15px</option>
           <option value="1rem">16px</option>
@@ -62,7 +60,6 @@
       <div class="group" style="gap:8px;">
   
         <form id="chapterForm" onsubmit="return false;">
-          <label class="sr-only" for="list">Chapter</label>
           <select name="list" id="list">
             <option value="none" id="defaultoptiontop">Choose a chapter</option>
           </select>
@@ -77,33 +74,23 @@
     {% if loop.index == 1 %}
         {% for line in paragraph %}
             {% if loop.index == 1 %}
-<h1>{{ line }} </h1><br>
+<h1>{{ line }}</h1><br>
             {% else %}
-{{ line }} <br><br>
+{{ line }}<br><br>
             {% endif %}
         {% endfor %}
     {% else %}
         {% for line in paragraph %}
-{{ line }} <br><br>
+{{ line }}<br><br>
         {% endfor %}
     {% endif %}
 {% endfor %}
     </div>
 
-
-    {% if note %}
-    <aside class="content" aria-label="Translator note" style="opacity:.95;">
-      <hr style="border:none; height:1px; background:var(--control-border); margin:16px 0;">
-      <h2 style="margin:0 0 8px 0; font-size:1.05em;">Note</h2>
-      <p style="margin:0;">{{ note }}</p>
-    </aside>
-    {% endif %}
-
     <div class="selectors bottom" role="navigation" aria-label="Bottom navigation"
          style="padding-bottom:max(10px, env(safe-area-inset-bottom));">
       <div class="group" style="gap:8px;">
         <form id="chapterFormBottom" onsubmit="return false;">
-          <label class="sr-only" for="listbottom">Chapter</label>
           <select name="listbottom" id="listbottom">
             <option value="none" id="defaultoptionbottom">Choose a chapter</option>
           </select>
@@ -112,20 +99,9 @@
         <button id="nextChapterBottom" type="button" aria-label="Next chapter">Next</button>
       </div>
     </div>
-
   
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-
-    
-    <style>
-      .sr-only {
-        position: absolute !important;
-        width: 1px; height: 1px;
-        padding: 0; margin: -1px;
-        overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-      }
-    </style>
 
     <noscript>
       <div class="content" style="margin-top:16px;">

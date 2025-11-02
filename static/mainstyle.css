@@ -19,6 +19,10 @@
     }
 }
 
+img {
+     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+
 :root.dark-mode,
 html.dark-mode {
     --bg: #0f1115;
@@ -48,7 +52,6 @@ body {
     min-height: 100vh;
 }
 
-
 body > div,
 main,
 .container,
@@ -63,7 +66,6 @@ main,
     box-sizing: border-box;
     text-align: center;
 }
-
 
 h1, h2, h3 {
     margin: 0 0 16px 0;
@@ -94,7 +96,6 @@ button[role="button"]:hover { filter: brightness(1.05); }
 .home-button:active,
 button[role="button"]:active { transform: translateY(1px); }
 
-
 input, select {
     border: 1px solid var(--card-border);
     background: var(--card-bg);
@@ -110,7 +111,6 @@ select:focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
 }
-
 
 @media (max-width: 640px) {
     body {
