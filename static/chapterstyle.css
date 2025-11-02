@@ -1,170 +1,140 @@
-/* =============================
-   chapterstyle.css — Página de leitura de capítulos
-   Tema por variáveis + barra “sticky” de controles
-   ============================= */
-
-/* —— Variáveis de tema (claro) —— */
 :root {
-  --bg-color: #ffffff;
-  --text-color: #222222;
-  --control-bg: #f5f7fa;
-  --control-border: rgba(0,0,0,0.08);
-  --control-text: #222222;
-  --link-color: #2864ff;
-  --button-hover-bg: rgba(0,0,0,0.06);
-  --ring: #58a6ff;
+    --bg-color: #f4f4f4;
+    --text-color: #191a1a;
+    --control-bg: #ebebeb;
+    --control-border: rgba(0,0,0,0.12);
+    --control-text: #191a1a;
+    --button-hover-bg: rgba(255,255,255,1);
+    --ring: #58a6ff;
 }
 
-/* Respeita o tema do sistema (se usuário não escolheu no botão) */
-@media (prefers-color-scheme: dark) {
-  :root:not(.dark-mode) {
-    --bg-color: #1e1e1e;
-    --text-color: #f1f1f1;
-    --control-bg: #2a2f36;
+:root.dark-mode,
+html.dark-mode, body.dark-mode {
+    --bg-color: #0D1117;
+    --text-color: #f0f6fc;
+    --control-bg: #181825;
     --control-border: rgba(255,255,255,0.12);
     --control-text: #f1f1f1;
-    --link-color: #58a6ff;
     --button-hover-bg: rgba(255,255,255,0.08);
-  }
 }
 
-/* Tema forçado via JS: classe no <html> (ou :root) */
-:root.dark-mode,
-html.dark-mode {
-  --bg-color: #1e1e1e;
-  --text-color: #f1f1f1;
-  --control-bg: #2a2f36;
-  --control-border: rgba(255,255,255,0.12);
-  --control-text: #f1f1f1;
-  --link-color: #58a6ff;
-  --button-hover-bg: rgba(255,255,255,0.08);
+html.dark-mode .lightdark,
+body.dark-mode .lightdark,
+:root.dark-mode .lightdark {
+  filter: invert(1) brightness(0.9);
 }
 
-/* —— Reset sutil —— */
 *, *::before, *::after { box-sizing: border-box; }
 
-/* —— Base —— */
 html, body { height: 100%; }
 
+.selectors button img.lightdark {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: auto;
+}
+
 body {
-  margin: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  line-height: 1.6;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    line-height: 1.6;
 }
 
-/* Conteúdo do capítulo: serifada para leitura confortável */
 .content {
-  font-family: Georgia, "Times New Roman", Times, "Noto Serif", "Merriweather", serif;
-  font-size: 1.125rem;
-  max-width: 80ch;
-  margin: 72px auto 96px;
-  padding: 0 16px;
+    font-size: 1.125rem;
+    max-width: 80ch;
+    margin: 72px auto 96px;
+    padding: 0 16px;
 }
 
-/* Links */
-.content a {
-  color: var(--link-color);
-  text-decoration: none;
-}
-.content a:hover { text-decoration: underline; }
-
-/* —— Barra de controles (topo/rodapé) —— */
 .selectors {
-  position: sticky;
-  z-index: 20;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 12px;
-  background-color: var(--control-bg);
-  color: var(--control-text);
-  border-bottom: 1px solid var(--control-border);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    z-index: 20;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    background-color: var(--control-bg);
+    color: var(--control-text);
+    border-bottom: 1px solid var(--control-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
 .selectors.top { top: 0; }
 .selectors.bottom {
-  bottom: 0;
-  border-top: 1px solid var(--control-border);
-  border-bottom: none;
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
+    bottom: 0;
+    border-top: 1px solid var(--control-border);
+    border-bottom: none;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
 }
 
-/* Botões e selects */
-.selectors button,
-#prevChapter, #nextChapter,
-#prevChapterBottom, #nextChapterBottom {
-  background: transparent;
-  color: var(--control-text);
-  border: 1px solid var(--control-border);
-  padding: 8px 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.06s ease;
-  min-width: 44px;
-  min-height: 36px;
+.selectors button {
+    background: transparent;
+    color: var(--control-text);
+    border: 1px solid var(--control-border);
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.06s ease;
+    min-width: 44px;
+    min-height: 36px;
+    margin-top: 5px;
+    margin-right: 5px;
 }
-.selectors button:hover,
-#prevChapter:hover, #nextChapter:hover,
-#prevChapterBottom:hover, #nextChapterBottom:hover {
-  background: var(--button-hover-bg);
+.selectors button:hover , .selectors select:hover {
+    background: var(--button-hover-bg);
 }
-.selectors button:active,
-#prevChapter:active, #nextChapter:active,
-#prevChapterBottom:active, #nextChapterBottom:active {
-  transform: translateY(1px);
+.selectors button:active {
+    transform: translateY(1px);
 }
 
-.selectors select,
-#list, #listbottom, #lang {
-  border: 1px solid var(--control-border);
-  background: var(--bg-color);
-  color: var(--text-color);
-  padding: 8px 10px;
-  border-radius: 10px;
-  min-width: 140px;
-  max-width: 50vw;
-  appearance: none;
+.selectors select{
+    border: 1px solid var(--control-border);
+    color: var(--text-color);
+    background-color: var(--control-bg);
+    padding: 8px 10px;
+    border-radius: 10px;
+    min-width: 140px;
+    max-width: 50vw;
+    appearance: none;
 }
 
-/* Acessibilidade: foco visível */
 .selectors button:focus-visible,
 .selectors select:focus-visible,
 #prevChapter:focus-visible, #nextChapter:focus-visible,
 #prevChapterBottom:focus-visible, #nextChapterBottom:focus-visible,
 .home-button:focus-visible, a:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
 }
 
-/* Responsivo */
-@media (max-width: 640px) {
-  .content { font-size: 1.05rem; margin: 64px auto 84px; }
-  .selectors {
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 8px 10px;
-  }
-  .selectors button,
-  #prevChapter, #nextChapter,
-  #prevChapterBottom, #nextChapterBottom,
-  .selectors select, #list, #listbottom {
-    min-height: 40px;
-    flex: 1 1 auto;
-  }
-  .selectors .group {
-    width: 100%;
-    display: flex;
-    gap: 8px;
-  }
+@media (max-width: 685px) {
+    .content { font-size: 1.05rem; margin: 64px auto 84px; }
+    .selectors {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+    .selectors button,
+    #prevChapter, #nextChapter,
+    #prevChapterBottom, #nextChapterBottom,
+    .selectors select, #list, #listbottom {
+        min-height: 40px;
+        flex: 1 1 auto;
+    }
+    .selectors .group {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+    }
 }
 
-/* Impressão: só o conteúdo do capítulo, sem barras */
 @media print {
-  .selectors { display: none !important; }
-  body { background: #fff; color: #000; }
-  .content { margin: 0; font-size: 12pt; }
+    .selectors { display: none !important; }
+    body { background: #fff; color: #000; }
+    .content { margin: 0; font-size: 12pt; }
 }

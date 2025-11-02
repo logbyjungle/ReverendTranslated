@@ -5,18 +5,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-    <title>ReverendTranslated — Chapter {{ chapter }}</title>
-    <meta name="description" content="Reading chapter {{ chapter }} in ReverendTranslated." />
-    <meta name="theme-color" content="#0f1115" />
-
-
-    <script>
-      (function () {
-        try { if (localStorage.getItem("theme") === "dark") {
-          document.documentElement.classList.add("dark-mode");
-        }} catch(e) {}
-      })();
-    </script>
+    <meta name="og:type" content="website">
+    <meta name="og:title" content="ReverendTranslated">
+    <meta name="og:description" content="Reverend Insanity Chapter {{ chapter }}">
+    <meta name="og:image" content="https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/main/static/icon.png">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='chapterstyle.css') }}">
@@ -24,28 +16,12 @@
   </head>
 
  
-  <body data-max-chapter="{{ max_chapter|default(2334) }}">
+  <body>
   
-    <script>
-      (function () {
-        try {
-          var f = localStorage.getItem("fontFamily");
-          if (f) document.body.style.fontFamily = f;
-          var fs = localStorage.getItem("fontSize");
-          if (fs) {
-            var s = document.createElement("style");
-            s.textContent = ".content{font-size:"+fs+"}";
-            document.head.appendChild(s);
-          }
-        } catch(e) {}
-      })();
-    </script>
-
-   
     <div class="selectors top" role="navigation" aria-label="Top navigation and preferences"
          style="padding-top:max(10px, env(safe-area-inset-top));">
       <div class="group" style="gap:8px;">
-        <a href="/" class="home-button" title="Back to main page">Back to Main Page</a>
+        <button class="home-button" type="button" onclick="window.location.href='/'">Back to Home</button>
         <button type="button" aria-label="Toggle light/dark theme" onclick="LightDark()">
           <img class="lightdark" src="{{ url_for('static', filename='mode.ico') }}" alt="Toggle theme" />
         </button>
@@ -96,21 +72,23 @@
       </div>
     </div>
 
-    <header class="content" aria-label="Chapter header" style="margin-top:24px;">
-      <h1 style="margin-bottom:8px;">Chapter {{ chapter }}</h1>
-      <p style="margin:0; color: var(--control-text);">
-        <small>Progress: {{ chapter }} / {{ max_chapter|default(2334) }}</small>
-      </p>
-    </header>
-
-    
-    <article class="content" id="content" role="article" aria-label="Chapter content">
+    <div class="content" id="content">
 {% for paragraph in content %}
-{% for line in paragraph %}
-{{ line }}
+    {% if loop.index == 1 %}
+        {% for line in paragraph %}
+            {% if loop.index == 1 %}
+<h1>{{ line }} </h1><br>
+            {% else %}
+{{ line }} <br><br>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% for line in paragraph %}
+{{ line }} <br><br>
+        {% endfor %}
+    {% endif %}
 {% endfor %}
-{% endfor %}
-    </article>
+    </div>
 
 
     {% if note %}
@@ -137,7 +115,6 @@
 
   
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <!-- main JS (unchanged) -->
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 
     
@@ -152,7 +129,7 @@
 
     <noscript>
       <div class="content" style="margin-top:16px;">
-        JavaScript is disabled: use the selectors to jump to a specific chapter.
+        JavaScript is disabled, enable it to gain access to every feature
       </div>
     </noscript>
   </body>
