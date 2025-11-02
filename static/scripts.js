@@ -1,13 +1,12 @@
-
 $(document).ready(function () {
     $('#lang').selectize({
         sortField: 'text'
     });
 });
 
-let currentUrl = window.location.href;
-let urlParts = currentUrl.split('/');
-let currentChapter = parseInt(urlParts[urlParts.length - 1]);
+const currentUrl = globalThis.location.href;
+const urlParts = currentUrl.split('/');
+const currentChapter = parseInt(urlParts[urlParts.length - 1]);
 
 const prevButton = document.getElementById("prevChapter");
 const nextButton = document.getElementById("nextChapter");
@@ -35,7 +34,7 @@ if (currentChapter === 2334) {
 const select = document.getElementById("list");
 
 for (let i = 1; i <= 2334; i++) {
-    let option = document.createElement("option");
+    const option = document.createElement("option");
     option.value = i;
     option.textContent = "Chapter " + i;
     if (i === currentChapter) {
@@ -48,14 +47,14 @@ select.addEventListener("change", function() {
     const selectedChapter = select.value;
     if (selectedChapter != currentChapter) {
         urlParts[urlParts.length - 1] = selectedChapter;
-        window.location.href = urlParts.join('/');
+        globalThis.location.href = urlParts.join('/');
     }
 });
 
 const selectbottom = document.getElementById("listbottom");
 
 for (let i = 1; i <= 2334; i++) {
-    let option = document.createElement("option");
+    const option = document.createElement("option");
     option.value = i;
     option.textContent = "Chapter " + i;
     if (i === currentChapter) {
@@ -68,58 +67,58 @@ selectbottom.addEventListener("change", function() {
     const selectedChapter = selectbottom.value;
     if (selectedChapter != currentChapter) {
         urlParts[urlParts.length - 1] = selectedChapter;
-        window.location.href = urlParts.join('/');
+        globalThis.location.href = urlParts.join('/');
     }
 });
 
 document.getElementById("prevChapter").addEventListener("click", function() {
-    let currentUrl = window.location.href;
-    let urlParts = currentUrl.split('/');
+    const currentUrl = globalThis.location.href;
+    const urlParts = currentUrl.split('/');
 
-    let currentChapter = parseInt(urlParts[urlParts.length - 1]);
+    const currentChapter = parseInt(urlParts[urlParts.length - 1]);
 
-    let prevChapter = currentChapter - 1;
+    const prevChapter = currentChapter - 1;
     urlParts[urlParts.length - 1] = prevChapter;
-    let newUrl = urlParts.join('/');
-    window.location.href = newUrl;
+    const newUrl = urlParts.join('/');
+    globalThis.location.href = newUrl;
 });
 document.getElementById("nextChapter").addEventListener("click", function() {
-    let currentUrl = window.location.href;
-    let urlParts = currentUrl.split('/');
+    const currentUrl = globalThis.location.href;
+    const urlParts = currentUrl.split('/');
 
-    let currentChapter = parseInt(urlParts[urlParts.length - 1]);
+    const currentChapter = parseInt(urlParts[urlParts.length - 1]);
 
-    let nextChapter = currentChapter + 1;
+    const nextChapter = currentChapter + 1;
     urlParts[urlParts.length - 1] = nextChapter;
-    let newUrl = urlParts.join('/');
-    window.location.href = newUrl;
+    const newUrl = urlParts.join('/');
+    globalThis.location.href = newUrl;
 });
 
 document.getElementById("prevChapterBottom").addEventListener("click", function() {
-    let currentUrl = window.location.href;
-    let urlParts = currentUrl.split('/');
+    const currentUrl = globalThis.location.href;
+    const urlParts = currentUrl.split('/');
 
-    let currentChapter = parseInt(urlParts[urlParts.length - 1]);
+    const currentChapter = parseInt(urlParts[urlParts.length - 1]);
 
-    let prevChapter = currentChapter - 1;
+    const prevChapter = currentChapter - 1;
     urlParts[urlParts.length - 1] = prevChapter;
-    let newUrl = urlParts.join('/');
-    window.location.href = newUrl;
+    const newUrl = urlParts.join('/');
+    globalThis.location.href = newUrl;
 });
 document.getElementById("nextChapterBottom").addEventListener("click", function() {
-    let currentUrl = window.location.href;
-    let urlParts = currentUrl.split('/');
+    const currentUrl = globalThis.location.href;
+    const urlParts = currentUrl.split('/');
 
-    let currentChapter = parseInt(urlParts[urlParts.length - 1]);
+    const currentChapter = parseInt(urlParts[urlParts.length - 1]);
 
-    let nextChapter = currentChapter + 1;
+    const nextChapter = currentChapter + 1;
     urlParts[urlParts.length - 1] = nextChapter;
-    let newUrl = urlParts.join('/');
-    window.location.href = newUrl;
+    const newUrl = urlParts.join('/');
+    globalThis.location.href = newUrl;
 });
 
 function LightDark() {
-    var element = document.body;
+    const element = document.body;
     element.classList.toggle("dark-mode");
 
     if (element.classList.contains("dark-mode")) {
@@ -162,11 +161,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-let defaultOptionTop = document.getElementById('defaultoptiontop');
+const defaultOptionTop = document.getElementById('defaultoptiontop');
 defaultOptionTop.textContent = `Chapter ${currentChapter}`;
 defaultOptionTop.value = currentChapter;
 
-let defaultOptionBottom = document.getElementById('defaultoptionbottom');
+const defaultOptionBottom = document.getElementById('defaultoptionbottom');
 defaultOptionBottom.textContent = `Chapter ${currentChapter}`;
 defaultOptionBottom.value = currentChapter;
 
@@ -174,6 +173,6 @@ function redirectToPage() {
     const select = document.getElementById('lang');
     const value = select.value;
     if (value) {
-        window.location.href = `/${value}/1`;
+        globalThis.location.href = `/${value}/1`;
     }
 }
