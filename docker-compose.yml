@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: flask-app
     restart: unless-stopped
     expose:
       - "5000"
@@ -11,6 +10,10 @@ services:
       - FLASK_APP=main.py
       - FLASK_RUN_HOST=0.0.0.0
       - DISPLAY=:99
+    volumes:
+      - translations-data:/docker-flask/translations
+    deploy:
+      replicas: 2
 
   nginx:
     env_file:
@@ -27,3 +30,6 @@ services:
       - flask-app
     volumes:
       - ./etc/letsencrypt:/etc/letsencrypt
+
+volumes:
+  translations-data:
