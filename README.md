@@ -19,16 +19,12 @@ pip install -m requirements.txt # use a venv if you want to
 python main.py
 ```
 and then enter the site at `localhost:5000`  
-**OR you can just use a [Docker](https://www.docker.com/) container with port 5000 open 🐋**  
+**OR you can just use a [Docker](https://www.docker.com/) container with port 5000 open 🐋 if you dont want to keep a chrome window open all the time**  
 
 ## If you instead want to host it for others you have to:  
 - make sure you are not under **NAT**  
 - `git clone https://github.com/logbyjungle/ReverendTranslated.git`  
 - `cd ReverendTranslated`  
-
-<p align="center">
-    <img src="./static/carbon.png" alt="nginx config" width="750">
-</p>
 
 - Use [Duckdns](https://www.duckdns.org) to get a static address  
 - I advise setting up a script in the host machine to update the public ip for Duckdns  
@@ -39,7 +35,8 @@ TZ=Europe/Rome
 TOKEN=yourduckdnstoken
 EMAIL=youremail@gmail.com # its required apparently
 ```
-- `docker compose up -d --build` Use Docker Compose instead of normal Docker  
+- `docker compose up -d --build --scale flask-app=NUMBEROFWORKERS` Use Docker Compose instead of normal Docker  
+- both the `docker-compose.yml` and `.env` files can be deleted once it finishes building and running the containers  
 - Port forward ports **80(http) and 443(https)**, remember to make your **ipv4** address static  
 
 ### If you also want to make everything more secure you have to use **https**:  
@@ -52,7 +49,10 @@ mv nginx.conf nginx.conf.disabled
 mv nginx.conf.https nginx.conf
 nginx -s reload
 ```  
-The certificates can be managed in the `etc` folder, you can also create it and put inside them before creating the container  
+The certificates can be managed in the `etc` folder, in case you want to use another location you can change this line in the `docker-compose.yml`:  
+```
+- ./etc/letsencrypt:/etc/letsencrypt
+```
 
 ---
 
@@ -60,19 +60,14 @@ This is a site hosted utilizing flask, it takes pages of RI's chapters from othe
 
 The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe by making sure everyone can read it  
 
-As of now the project is still not really made to be used:  
-1. the site lacks a good UI  
-2. the requests arent handled in parallel due to selenium's limitations, this means that the entire way the project work will have to be revolutionized  
-3. there might be a bunch of issues with the translation, since the project is made for everyone it is right that those who find errors in the translation and want to fix the issue must be able to do so  
-
 > ***TODO***  
-> add a loading page  
-> add a check to see if the source or translation is less than 500 characters(or another way to check if it was unsuccessful)  
-> implement github actions(deploy containers and tests if requests work, publish to docker and add docker compose to releases)  
-> implement security features(protection from ddos)  
+> implement github actions: deploy containers and tests if requests work  
+> implement security features: protection from ddos,fail2ban,modsecurity...  
 > add github badges  
-> make the docker container avaiable easily  
 > make dark/light mode and buttons get activated as soon as the page starts loading  
+> make it so that cloning the repo is done inside the docker compose file, and that by picking the commit it becomes the release  
+> make chapters sources always avaiable  
+> make it possible to get translation from the original chinese version  
 
 *This repository is open-source under the GPL 3.0 license, but that applies **only to the code**.  
 The translated text of *Reverend Insanity* included or produced by this project is **unauthorized and copyrighted** by the original author and publisher.  
