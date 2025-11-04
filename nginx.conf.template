@@ -3,6 +3,11 @@ server {
     listen 80;
     server_name ${DOMAIN};
 
+    location ~ /\. {
+        deny all;
+        return 404;
+    }
+
     location / {
         proxy_pass http://flask-app:5000;
         proxy_set_header Host $host;
@@ -12,4 +17,7 @@ server {
         proxy_buffering off;
         chunked_transfer_encoding on;
     }
+
+    error_page 404 = /;
+
 }

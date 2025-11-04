@@ -16,6 +16,11 @@ server {
 
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 
+    location ~ /\. {
+        deny all;
+        return 404;
+    }
+
     location / {
         proxy_pass http://flask-app:5000;
         proxy_set_header Host $host;
@@ -25,4 +30,7 @@ server {
         proxy_buffering off;
         chunked_transfer_encoding on;
     }
+
+    error_page 404 = /;
+
 }
