@@ -139,8 +139,10 @@ def translatewhole(chapter,lang,quit=1):
 
     if os.path.isfile("translations/" + filename):
         with open("translations/" + filename, 'r') as file:
-            yield [line.strip('\n') for line in file]
-        return
+            content = file.read()
+        if len(content) > 500:
+            yield [line.strip('\n') for line in content.splitlines()]
+            return
 
     startdriver()
 
@@ -171,11 +173,10 @@ def translatewhole(chapter,lang,quit=1):
                 for j in range(start,i+1):
                     to_translate += splits_encoded[j]
                     to_translate += divisor
-                lines = translate(to_translate,lang,0)#.splitlines()
+                lines = translate(to_translate,lang,0)
                 lines = re.sub(r'\n\s*\n','\n',lines)
                 lines = lines.splitlines()
                 lines = [line for line in lines if "fantasylibrary" not in line and "🎉" not in line and "Reverend Insanity" not in line]
-                # file.writelines(lines)
                 file.write('\n'.join(lines) + '\n')
                 yield lines
             else:
