@@ -12,8 +12,6 @@ services:
       - DISPLAY=:99
     volumes:
       - translations-data:/docker-flask/translations
-    deploy:
-      replicas: 2
 
   nginx:
     env_file:
