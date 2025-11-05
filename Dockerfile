@@ -18,6 +18,8 @@ COPY templates ./templates
 COPY languages.txt .
 COPY main.py .
 COPY bot.py .
+COPY .git/refs/heads/main ./.git/refs/heads/main
+COPY .git/HEAD ./.git/HEAD
 
 EXPOSE 5000
 
