@@ -8,12 +8,12 @@ import pyperclip
 import urllib.parse
 import undetected_chromedriver
 import os
-from bs4 import BeautifulSoup
 from pathlib import Path
 from selenium.webdriver.common.keys import Keys
 import re
 import subprocess
 import time
+import requests
 
 def in_docker():
     cgroup = Path('/proc/self/cgroup')
@@ -105,35 +105,13 @@ def translate(text,lang,quit = 1):
 
     return pyperclip.paste()
 
-def scrape_chapter(chapter,quit=1):
-    os.makedirs("sources",exist_ok=True)
-    filename = "sources/" + str(chapter) + ".html"
-    if not os.path.isfile(filename):
-        startdriver()
-        driver.get(f"https://fantasylibrary.ink/novel/reverend-insanity-11/chapter/{chapter}")
-
-        # Wait until the page is fully loaded
-        WebDriverWait(driver, 10).until(
-            lambda d: d.execute_script("return document.readyState") == "complete"
-        )
-
-        with open(filename, "w") as file:
-            file.write(driver.page_source)
-
-    with open(filename) as file:
-        html = file.read()
-        soup = BeautifulSoup(html, "html.parser")
-        paragraphs = [p.get_text() for p in soup.find_all("p")]
-        if soup.title is not None and soup.title.string is not None:
-            paragraphs.insert(0,soup.title.string[20:-18])
-
-    if quit:
-        stopdriver()
-
-    return "\n\n\n".join(paragraphs)
+def scrape_chapter(chapter):
+    url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/chapters/{chapter}.txt"
+    response = requests.get(url)
+    return response.text
 
 def translatewhole(chapter,lang,quit=1):
-    text = scrape_chapter(chapter,0)
+    text = scrape_chapter(chapter)
     os.makedirs("translations",exist_ok=True)
     filename = lang + "-" + str(chapter) + ".txt"
 
@@ -163,7 +141,6 @@ def translatewhole(chapter,lang,quit=1):
                 line_s = translate(to_translate,lang,0)
                 line_s = re.sub(r'\n\s*\n+', '\n', line_s)
                 lines = line_s.splitlines()
-                lines = [line for line in lines if "fantasylibrary" not in line and "🎉" not in line and "Reverend Insanity" not in line]
                 file.write('\n'.join(lines) + '\n')
                 yield lines
                 start = i
@@ -176,7 +153,6 @@ def translatewhole(chapter,lang,quit=1):
                 lines = translate(to_translate,lang,0)
                 lines = re.sub(r'\n\s*\n','\n',lines)
                 lines = lines.splitlines()
-                lines = [line for line in lines if "fantasylibrary" not in line and "🎉" not in line and "Reverend Insanity" not in line]
                 file.write('\n'.join(lines) + '\n')
                 yield lines
             else:
