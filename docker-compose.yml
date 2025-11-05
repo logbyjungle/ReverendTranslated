@@ -12,6 +12,9 @@ services:
       - DISPLAY=:99
     volumes:
       - translations-data:/docker-flask/translations
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
 
   nginx:
     env_file:
@@ -28,6 +31,9 @@ services:
       - flask-app
     volumes:
       - ./etc/letsencrypt:/etc/letsencrypt
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
 
 volumes:
   translations-data:
