@@ -1,5 +1,5 @@
 from bot import translatewhole, startdriver
-from flask import Flask, render_template, stream_template
+from flask import Flask, Response, render_template, stream_template
 import subprocess
 
 app = Flask(__name__)
@@ -22,6 +22,13 @@ startdriver()
 def home():
     return render_template("main.html", mapping=langs, version=get_version())
 
+@app.route("/api/<lang>/<chapter>")
+def call(lang,chapter):
+    def generate():
+        for paragraph in translatewhole(chapter,lang,0):
+            yield ('\n'.join(paragraph) + '\n').encode('UTF-8')
+    return Response(generate(),mimetype='text/plain',direct_passthrough=True)
+
 @app.route("/<lang>/<chapter>")
 def page(lang, chapter):
     if chapter not in [str(i) for i in range (1,2335)]:
@@ -30,7 +37,7 @@ def page(lang, chapter):
     if lang not in langs.values():
         return "What language is " + lang + " exactly?"
 
-    return stream_template("chapter.html",chapter=chapter,content=translatewhole(chapter,lang,0))
+    return stream_template("chapter.html",chapter=chapter)
 
 if __name__ == '__main__':
     app.run(debug=True,use_reloader=False,host="0.0.0.0")

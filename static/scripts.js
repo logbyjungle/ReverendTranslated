@@ -140,6 +140,55 @@ function changeFontSize(size) {
     });
 }
 
+async function streamContent() {
+    const contentDiv = document.getElementById('content');
+
+    const pathParts = globalThis.location.pathname.split('/').filter(Boolean);
+    const [lang, chapter] = pathParts;
+
+    if (!lang || !chapter) {
+        console.error("Cannot determine lang or chapter from URL.");
+        return;
+    }
+
+    const response = await fetch(`/api/${lang}/${chapter}`);
+    
+    if (!response.body) {
+        console.error("Streaming not supported by this response.");
+        return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+
+        lines.forEach(line => {
+            if (line.trim()) {
+                const p = document.createElement('p');
+                p.textContent = line;
+                contentDiv.appendChild(p);
+            }
+        });
+
+        contentDiv.scrollTop = contentDiv.scrollHeight;
+    }
+
+    if (buffer.trim()) {
+        const p = document.createElement('p');
+        p.textContent = buffer;
+        contentDiv.appendChild(p);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -159,6 +208,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const fontSizeSelector = document.getElementById('fontSizeSelector');
         if (fontSizeSelector) fontSizeSelector.value = savedFontSize;
     }
+    streamContent();
 });
 
 const defaultOptionTop = document.getElementById('defaultoptiontop');

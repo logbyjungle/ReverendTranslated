@@ -64,7 +64,6 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > implement github actions: deploy containers and tests if requests work  
 > implement security features: protection from ddos,fail2ban,modsecurity...  
 > add github badges  
-> make dark/light mode and buttons get activated as soon as the page starts loading  
 > make it possible to get translation from the original chinese version  
 
 *This repository is open-source under the GPL 3.0 license, but that applies **only to the code**.  
