@@ -13,23 +13,17 @@ const nextButton = document.getElementById("nextChapter");
 
 if (currentChapter === 1) {
     prevButton.style.display = "none";
+    prevButtonBottom.style.display = "none";
 }
 
 if (currentChapter === 2334) {
     nextButton.style.display = "none";
+    nextButtonBottom.style.display = "none";
 }
 
 
 const prevButtonBottom = document.getElementById("prevChapterBottom");
 const nextButtonBottom = document.getElementById("nextChapterBottom");
-
-if (currentChapter === 1) {
-    prevButtonBottom.style.display = "none";
-}
-
-if (currentChapter === 2334) {
-    nextButtonBottom.style.display = "none";
-}
 
 const select = document.getElementById("list");
 
@@ -146,18 +140,8 @@ async function streamContent() {
     const pathParts = globalThis.location.pathname.split('/').filter(Boolean);
     const [lang, chapter] = pathParts;
 
-    if (!lang || !chapter) {
-        console.error("Cannot determine lang or chapter from URL.");
-        return;
-    }
-
     const response = await fetch(`/api/${lang}/${chapter}`);
     
-    if (!response.body) {
-        console.error("Streaming not supported by this response.");
-        return;
-    }
-
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';

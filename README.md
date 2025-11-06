@@ -43,7 +43,7 @@ EMAIL=youremail@gmail.com # its required apparently
 - go inside the shell of the nginx container and run `activate_https.sh`  
 In case you dont intend to use Duckdns here is the content of the script, just modify the certbot part  
 ```sh
-certbot certonly --non-interactive --agree-tos --email YOUREMAIL --preferred-challenges dns --authenticator dns-duckdns --dns-duckdns-token "YOURTOKEN" --dns-duckdns-propagation-seconds 60 -d "YOURSUBDOMAIN.duckdns.org"
+certbot certonly --non-interactive --agree-tos --email "$EMAIL" --preferred-challenges dns --authenticator dns-duckdns --dns-duckdns-token "$TOKEN" --dns-duckdns-propagation-seconds 60 -d "$DOMAIN"
 cd etc/nginx/conf.d/
 mv nginx.conf nginx.conf.disabled
 mv nginx.conf.https nginx.conf
@@ -65,7 +65,3 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > implement security features: protection from ddos,fail2ban,modsecurity...  
 > add github badges  
 > make it possible to get translation from the original chinese version  
-
-*This repository is open-source under the GPL 3.0 license, but that applies **only to the code**.  
-The translated text of *Reverend Insanity* included or produced by this project is **unauthorized and copyrighted** by the original author and publisher.  
-This project **does not grant permission** to redistribute or commercialize these translations.*  
