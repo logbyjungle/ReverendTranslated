@@ -145,6 +145,7 @@ async function streamContent() {
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';
+    let isfirstline = true;
 
     while (true) {
         const { done, value } = await reader.read();
@@ -157,9 +158,10 @@ async function streamContent() {
 
         lines.forEach(line => {
             if (line.trim()) {
-                const p = document.createElement('p');
+                const p = document.createElement(isfirstline ? 'h2' : 'p');
                 p.textContent = line;
                 contentDiv.appendChild(p);
+                isfirstline = false;
             }
         });
 
