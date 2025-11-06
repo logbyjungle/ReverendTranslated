@@ -11,6 +11,9 @@ const currentChapter = parseInt(urlParts[urlParts.length - 1]);
 const prevButton = document.getElementById("prevChapter");
 const nextButton = document.getElementById("nextChapter");
 
+const prevButtonBottom = document.getElementById("prevChapterBottom");
+const nextButtonBottom = document.getElementById("nextChapterBottom");
+
 if (currentChapter === 1) {
     prevButton.style.display = "none";
     prevButtonBottom.style.display = "none";
@@ -20,10 +23,6 @@ if (currentChapter === 2334) {
     nextButton.style.display = "none";
     nextButtonBottom.style.display = "none";
 }
-
-
-const prevButtonBottom = document.getElementById("prevChapterBottom");
-const nextButtonBottom = document.getElementById("nextChapterBottom");
 
 const select = document.getElementById("list");
 
