@@ -6,3 +6,5 @@ __pycache__/
 update-duckdns.sh
 etc/
 .env
+main.py
+remaster.txt
