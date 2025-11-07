@@ -197,12 +197,37 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 const defaultOptionTop = document.getElementById('defaultoptiontop');
-defaultOptionTop.textContent = `Chapter ${currentChapter}`;
-defaultOptionTop.value = currentChapter;
-
+defaultOptionTop.textContent = "Choose a chapter";
+defaultOptionTop.value = "";
+defaultOptionTop.disabled = true;
 const defaultOptionBottom = document.getElementById('defaultoptionbottom');
-defaultOptionBottom.textContent = `Chapter ${currentChapter}`;
-defaultOptionBottom.value = currentChapter;
+defaultOptionBottom.textContent = "Choose a chapter";
+defaultOptionBottom.value = "";
+defaultOptionBottom.disabled = true;
+
+Array.from(select.querySelectorAll('option')).forEach(opt => {
+  if (!opt.id) opt.remove();
+});
+Array.from(selectbottom.querySelectorAll('option')).forEach(opt => {
+  if (!opt.id) opt.remove();
+});
+
+for (let i = 1; i <= 2334; i++) {
+  const optTop = document.createElement("option");
+  optTop.value = String(i);
+  optTop.textContent = "Chapter " + i;
+  if (i === currentChapter) optTop.selected = true;
+  select.appendChild(optTop);
+
+  const optBottom = document.createElement("option");
+  optBottom.value = String(i);
+  optBottom.textContent = "Chapter " + i;
+  if (i === currentChapter) optBottom.selected = true;
+  selectbottom.appendChild(optBottom);
+}
+
+select.value = String(currentChapter);
+selectbottom.value = String(currentChapter);
 
 function redirectToPage() {
     const select = document.getElementById('lang');
