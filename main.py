@@ -1,6 +1,7 @@
 from bot import translatewhole, startdriver
 from flask import Flask, Response, redirect, render_template, stream_template, url_for
 import subprocess
+import sys
 
 app = Flask(__name__)
 
@@ -16,7 +17,8 @@ def get_version():
     except Exception:
         return "Unknown commit"
 
-startdriver()
+if len(sys.argv) < 2: # adding anything after "python main.py" causes the program to not start selenium
+    startdriver()
 
 @app.route("/")
 def home():
@@ -31,7 +33,7 @@ def call(lang,chapter):
         return redirect(url_for("home"))
 
     def generate():
-        for paragraph in translatewhole(chapter,lang,0):
+        for paragraph in translatewhole(chapter,lang):
             yield ('\n'.join(paragraph) + '\n').encode('UTF-8')
     return Response(generate(),mimetype='text/plain',direct_passthrough=True)
 
