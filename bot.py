@@ -53,14 +53,7 @@ def startdriver():
         )
         running = 1
 
-def stopdriver():
-    global running
-    global driver
-    if running:
-        driver.quit()
-        running = 0
-
-def translate(text,lang,quit = 1):
+def translate(text,lang):
 
     startdriver()
 
@@ -100,9 +93,6 @@ def translate(text,lang,quit = 1):
         if not pyperclip.paste():
             raise Exception("Failed to copy translation")
 
-    if quit:
-        stopdriver()
-
     return pyperclip.paste()
 
 def scrape_chapter(chapter):
@@ -110,7 +100,7 @@ def scrape_chapter(chapter):
     response = requests.get(url)
     return response.text
 
-def translatewhole(chapter,lang,quit=1):
+def translatewhole(chapter,lang):
     text = scrape_chapter(chapter)
     os.makedirs("translations",exist_ok=True)
     filename = lang + "-" + str(chapter) + ".txt"
@@ -121,6 +111,12 @@ def translatewhole(chapter,lang,quit=1):
         if len(content) > 500:
             yield [line.strip('\n') for line in content.splitlines()]
             return
+
+    url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}-{chapter}.txt"
+    response = requests.get(url)
+    if response.status_code == 200:
+        yield response.text
+        return
 
     startdriver()
 
@@ -138,7 +134,7 @@ def translatewhole(chapter,lang,quit=1):
                 for j in range(start,i):
                     to_translate += splits_encoded[j]
                     to_translate += divisor
-                line_s = translate(to_translate,lang,0)
+                line_s = translate(to_translate,lang)
                 line_s = re.sub(r'\n\s*\n+', '\n', line_s)
                 lines = line_s.splitlines()
                 file.write('\n'.join(lines) + '\n')
@@ -150,12 +146,10 @@ def translatewhole(chapter,lang,quit=1):
                 for j in range(start,i+1):
                     to_translate += splits_encoded[j]
                     to_translate += divisor
-                lines = translate(to_translate,lang,0)
+                lines = translate(to_translate,lang)
                 lines = re.sub(r'\n\s*\n','\n',lines)
                 lines = lines.splitlines()
                 file.write('\n'.join(lines) + '\n')
                 yield lines
             else:
                 chars += len(splits_encoded[i])
-    if quit:
-        stopdriver()
