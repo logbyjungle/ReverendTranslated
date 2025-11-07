@@ -56,6 +56,12 @@ The certificates can be managed in the `etc` folder, in case you want to use ano
 
 ---
 
+### You've noticed a translation problem and wish to fix it?  
+Go to the `chapters` branch of the repository and create a file with this format: LANGUAGE_ID-CHAPTER.txt  
+Put your translated chapter into it, make a pull request and its done  
+
+---
+
 This is a site hosted utilizing flask, it takes pages of RI's chapters from other sites and translate them by using google translate via selenium  
 
 The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe by making sure everyone can read it  
