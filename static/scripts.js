@@ -198,19 +198,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const defaultOptionTop = document.getElementById('defaultoptiontop');
 defaultOptionTop.textContent = "Choose a chapter";
-defaultOptionTop.value = "";
 defaultOptionTop.disabled = true;
 const defaultOptionBottom = document.getElementById('defaultoptionbottom');
 defaultOptionBottom.textContent = "Choose a chapter";
-defaultOptionBottom.value = "";
 defaultOptionBottom.disabled = true;
-
-Array.from(select.querySelectorAll('option')).forEach(opt => {
-  if (!opt.id) opt.remove();
-});
-Array.from(selectbottom.querySelectorAll('option')).forEach(opt => {
-  if (!opt.id) opt.remove();
-});
 
 for (let i = 1; i <= 2334; i++) {
   const optTop = document.createElement("option");
