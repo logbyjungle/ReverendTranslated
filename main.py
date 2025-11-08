@@ -20,11 +20,11 @@ def get_version():
 if len(sys.argv) < 2: # adding anything after "python main.py" causes the program to not start selenium
     startdriver()
 
-@app.route("/")
+@app.route("/",methods=["GET"])
 def home():
     return render_template("main.html", mapping=langs, version=get_version())
 
-@app.route("/api/<lang>/<chapter>")
+@app.route("/api/<lang>/<chapter>",methods=["GET"])
 def call(lang,chapter):
     if chapter not in [str(i) for i in range (1,2335)]:
         return redirect(url_for("home"))
@@ -37,7 +37,7 @@ def call(lang,chapter):
             yield ('\n'.join(paragraph) + '\n').encode('UTF-8')
     return Response(generate(),mimetype='text/plain',direct_passthrough=True)
 
-@app.route("/<lang>/<chapter>")
+@app.route("/<lang>/<chapter>",methods=["GET"])
 def page(lang, chapter):
     if chapter not in [str(i) for i in range (1,2335)]:
         return redirect(url_for("home"))
