@@ -71,3 +71,4 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > implement security features: protection from ddos,fail2ban,modsecurity...  
 > add github badges  
 > make it possible to get translation from the original chinese version  
+> translate the languages in language selection menu to their own language  
