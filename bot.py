@@ -7,19 +7,11 @@ from selenium.webdriver.support import expected_conditions as EC
 import urllib.parse
 import undetected_chromedriver
 import os
-from pathlib import Path
 from selenium.webdriver.common.keys import Keys
 import re
 import subprocess
 import requests
 from typing import Generator
-
-def in_docker() -> bool:
-    cgroup = Path('/proc/self/cgroup')
-    return Path('/.dockerenv').is_file() or (cgroup.is_file() and 'docker' in cgroup.read_text())
-
-if in_docker():
-    os.environ["DISPLAY"] = ":99"
 
 def get_chrome_version():
     try:
