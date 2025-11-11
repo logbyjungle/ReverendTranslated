@@ -19,7 +19,6 @@ pip install -m requirements.txt # use a venv if you want to
 python main.py
 ```
 and then enter the site at `localhost:5000`  
-**OR you can just use a [Docker](https://www.docker.com/) container with port 5000 open 🐋 if you dont want to keep a chrome window open all the time**  
 
 ## If you instead want to host it for others you have to:  
 - make sure you are not under **NAT**  
@@ -59,6 +58,7 @@ The certificates can be managed in the `etc` folder, in case you want to use ano
 ### You've noticed a translation problem and wish to fix it?  
 Go to the `chapters` branch of the repository and create a file with this format: LANGUAGE_ID-CHAPTER.txt  
 Put your translated chapter into it, make a pull request and its done  
+Or just create an issue on github if it is too much of a hassle  
 
 ---
 
@@ -72,3 +72,4 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > add github badges  
 > make it possible to get translation from the original chinese version  
 > translate the languages in language selection menu to their own language  
+> add multiprocessing to translation  

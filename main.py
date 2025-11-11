@@ -1,7 +1,7 @@
 from bot import translatewhole, startdriver
 from flask import Flask, Response, redirect, render_template, stream_template, url_for
 import subprocess
-import sys
+import argparse
 
 app = Flask(__name__)
 
@@ -17,8 +17,16 @@ def get_version():
     except Exception:
         return "Unknown commit"
 
-if len(sys.argv) < 2: # adding anything after "python main.py" causes the program to not start selenium
-    startdriver()
+parser = argparse.ArgumentParser()
+parser.add_argument("--nodriver",action="store_true",help="disables webdriver")
+parser.add_argument("--verbose",action="store_true",help="enables debug mode")
+parser.add_argument("--nostore",action="store_true",help="disabled storing translated chapters")
+parser.add_argument("--noread",action="store_true",help="disabled reading translated chapters")
+parser.add_argument("--headful",action="store_true",help="disables headless mode")
+args = parser.parse_args()
+
+if not args.nodriver:
+    startdriver(args.headful)
 
 @app.route("/",methods=["GET"])
 def home():
@@ -33,7 +41,7 @@ def call(lang,chapter):
         return redirect(url_for("home"))
 
     def generate():
-        for paragraph in translatewhole(chapter,lang):
+        for paragraph in translatewhole(chapter,lang,args):
             yield ('\n'.join(paragraph) + '\n').encode('UTF-8')
     return Response(generate(),mimetype='text/plain',direct_passthrough=True)
 
