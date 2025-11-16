@@ -4,8 +4,7 @@ FROM python:3.13-slim
 WORKDIR /docker-flask
 
 RUN apt-get update && apt-get install -y \
-    chromium chromium-driver xvfb openbox wget unzip xclip git \
-# idk how needed this is
+    chromium chromium-driver wget unzip git \
     build-essential libffi-dev python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,9 +23,5 @@ EXPOSE 5000
 
 ENV FLASK_APP=main.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV DISPLAY=:99
-
-# COPY entrypoint.sh .
-# RUN chmod +x /docker-flask/entrypoint.sh
 
 CMD ["gunicorn","-w","1","-k","gevent","-b","0.0.0.0:5000","-t","120","main:app"]
