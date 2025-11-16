@@ -25,5 +25,5 @@
  Un voto
  Un grado A
 ---
- voto 
+ voto
  grado
