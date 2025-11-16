@@ -81,3 +81,7 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > translate the languages in language selection menu to their own language  
 > add multiprocessing to translation  
 > add logs  
+> make the whole thing not just for reverend insanity only  
+> delete translated chapters stored in cache for some reason  
+> make it so that if memory is full then it `rm -rf`s the translations  
+> when the text is loading give it a default value of a loading wheel gif + a lot of \n so that the bottom bar isnt shown  
