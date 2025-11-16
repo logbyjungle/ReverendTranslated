@@ -118,22 +118,23 @@ def translatewhole(chapter,lang,args) -> Generator[list[str]]:
         elif args.verbose: print(f"DEBUG: content has less than 500 characters")
     elif args.verbose: print(f"DEBUG: translated chapter not found")
 
-    url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}.txt"
-    response = requests.get(url)
     patters = []
-    if response.status_code == 200:
-        if args.verbose: print(f"DEBUG: chapter has been edited")
-        lines = response.text.splitlines()
-        counter = 0
-        for i in range(len(lines)):
-            if i % 3 == 0:
-                patters.append([lines[i]])
-            if i % 3 == 1:
-                patters[counter].append(lines[i])
-            if i % 3 == 2:
-                counter += 1
-                if "---" not in lines[i]:
-                    raise Exception("regex pattern file is not following the correct format")
+    if not args.noreplace:
+        url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}.txt"
+        response = requests.get(url)
+        if response.status_code == 200:
+            if args.verbose: print(f"DEBUG: chapter has been edited")
+            lines = response.text.splitlines()
+            counter = 0
+            for i in range(len(lines)):
+                if i % 3 == 0:
+                    patters.append([lines[i]])
+                if i % 3 == 1:
+                    patters[counter].append(lines[i])
+                if i % 3 == 2:
+                    counter += 1
+                    if "---" not in lines[i]:
+                        raise Exception("regex pattern file is not following the correct format")
 
     elif args.verbose: print(f"DEBUG: chapter has not been edited")
     with open("translations/" + filename, "w") as file:

@@ -24,6 +24,7 @@ parser.add_argument("--verbose",action="store_true",help="enables debug mode")
 parser.add_argument("--nowrite",action="store_true",help="disabled storing translated chapters")
 parser.add_argument("--noread",action="store_true",help="disabled reading translated chapters")
 parser.add_argument("--headful",action="store_true",help="disables headless mode")
+parser.add_argument("--noreplace",action="store_true",help="disables replacing text using translation regex")
 args,_ = parser.parse_known_args()
 
 if not args.nodriver:
