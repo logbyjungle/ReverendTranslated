@@ -21,13 +21,13 @@ def get_version():
 parser = argparse.ArgumentParser()
 parser.add_argument("--nodriver",action="store_true",help="disables webdriver")
 parser.add_argument("--verbose",action="store_true",help="enables debug mode")
-parser.add_argument("--nostore",action="store_true",help="disabled storing translated chapters")
+parser.add_argument("--nowrite",action="store_true",help="disabled storing translated chapters")
 parser.add_argument("--noread",action="store_true",help="disabled reading translated chapters")
 parser.add_argument("--headful",action="store_true",help="disables headless mode")
 args,_ = parser.parse_known_args()
 
 if not args.nodriver:
-    startdriver(args.headful)
+    startdriver(args)
 
 def validity_check(func):
     @wraps(func)
@@ -48,10 +48,13 @@ def home():
 @app.route("/api/<lang>/<chapter>",methods=["GET"])
 @validity_check
 def call(lang,chapter):
-    def generate():
-        for paragraph in translatewhole(chapter,lang,args):
-            yield ('\n'.join(paragraph) + '\n').encode('UTF-8')
-    return Response(generate(),mimetype='text/plain',direct_passthrough=True)
+    if not args.nodriver:
+        def generate():
+            for paragraph in translatewhole(chapter,lang,args):
+                yield ('\n'.join(paragraph) + '\n').encode('UTF-8')
+        return Response(generate(),mimetype='text/plain',direct_passthrough=True)
+    else:
+        return "driver disabled with --nodriver"
 
 @app.route("/<lang>/<chapter>",methods=["GET"])
 @validity_check
