@@ -56,9 +56,16 @@ The certificates can be managed in the `etc` folder, in case you want to use ano
 ---
 
 ### You've noticed a translation problem and wish to fix it?  
-Go to the `chapters` branch of the repository and create a file with this format: LANGUAGE_ID-CHAPTER.txt  
-Put your translated chapter into it, make a pull request and its done  
-Or just create an issue on github if it is too much of a hassle  
+Go to the `chapters` branch of the repository and look for a file with the same name of the id of your language  
+If there is none create it  
+Write into it with this following format  
+```
+Pattern
+Replacement
+---
+```
+Every `Pattern` is a python regex pattern, every `Replacement` is the text you want to replace the pattern with  
+Multiple patterns can be inserted, just make sure there is a `---` to separate them  
 
 ---
 

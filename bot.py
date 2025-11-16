@@ -12,6 +12,7 @@ import re
 import subprocess
 import requests
 from typing import Generator
+import re
 
 def get_chrome_version():
     try:
@@ -27,10 +28,10 @@ def get_chrome_version():
     print("using chrome driver version " + version)
     return int(version)
 
-def startdriver(head):
+def startdriver(args):
     global driver
     options = Options()
-    if not head:
+    if not args.headful:
         options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
@@ -39,6 +40,7 @@ def startdriver(head):
     driver = undetected_chromedriver.Chrome(
         service=Service(ChromeDriverManager().install()), options=options , version_main=get_chrome_version()
     )
+    if args.verbose: print(f"DEBUG: started driver {str(driver)}")
 
 def translate(text,lang,args) -> str:
 
@@ -116,19 +118,35 @@ def translatewhole(chapter,lang,args) -> Generator[list[str]]:
         elif args.verbose: print(f"DEBUG: content has less than 500 characters")
     elif args.verbose: print(f"DEBUG: translated chapter not found")
 
-    url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}-{chapter}.txt"
+    url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}.txt"
     response = requests.get(url)
+    patters = []
     if response.status_code == 200:
         if args.verbose: print(f"DEBUG: chapter has been edited")
-        yield response.text.splitlines()
-        return
+        lines = response.text.splitlines()
+        counter = 0
+        for i in range(len(lines)):
+            if i % 3 == 0:
+                patters.append([lines[i]])
+            if i % 3 == 1:
+                patters[counter].append(lines[i])
+            if i % 3 == 2:
+                counter += 1
+                if "---" not in lines[i]:
+                    raise Exception("regex pattern file is not following the correct format")
+
     elif args.verbose: print(f"DEBUG: chapter has not been edited")
     with open("translations/" + filename, "w") as file:
         for to_translate in totranslatewhole(chapter,args):
             translated = translate(to_translate,lang,args)
             translated = re.sub(r'\n\s*\n+', '\n', translated)
             translated_lines = translated.splitlines()
-            if not args.nostore:
+
+            for i in range(len(translated_lines)):
+                for pattern in patters:
+                    translated_lines[i] = re.sub(pattern[0],pattern[1],translated_lines[i])
+
+            if not args.nowrite:
                 file.write('\n'.join(translated_lines) + '\n')
             yield translated_lines
 
