@@ -118,19 +118,32 @@ def translatewhole(chapter,lang,args) -> Generator[list[str]]:
                         raise Exception("regex pattern file is not following the correct format")
 
     elif args.verbose: print(f"DEBUG: chapter has not been edited")
-    with open("translations/" + filename, "w") as file:
-        for to_translate in totranslatewhole(chapter,args):
-            translated = translate(to_translate,lang,args)
-            translated = re.sub(r'\n\s*\n+', '\n', translated)
-            translated_lines = translated.splitlines()
 
-            for i in range(len(translated_lines)):
-                for pattern in patters:
-                    translated_lines[i] = re.sub(pattern[0],pattern[1],translated_lines[i])
+    file = None
+    if not args.nowrite:
+        file = open("translations/" + filename, "w")
 
-            if not args.nowrite:
-                file.write('\n'.join(translated_lines) + '\n')
-            yield translated_lines
+    for to_translate in totranslatewhole(chapter,args):
+        translated = translate(to_translate,lang,args)
+        translated = re.sub(r'\n\s*\n+', '\n', translated)
+        translated_lines = translated.splitlines()
+
+        for i in range(len(translated_lines)):
+            for pattern in patters:
+                old = translated_lines[i]
+                translated_lines[i] = re.sub(pattern[0],pattern[1],translated_lines[i])
+                if args.verbose and translated_lines[i] != old:
+                    print(f"DEBUG: text change with pattern {pattern[0]} -> {pattern[1]}:")
+                    print(old)
+                    print("↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓")
+                    print(translated_lines[i])
+                    print("-------------------")
+
+        if file:
+            file.write('\n'.join(translated_lines) + '\n')
+        yield translated_lines
+
+    if file: file.close()
 
 def totranslatewhole(chapter,args) -> list[str]:
     text = scrape_chapter(chapter,args)
