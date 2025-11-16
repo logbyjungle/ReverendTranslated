@@ -1,6 +1,4 @@
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,24 +7,9 @@ import undetected_chromedriver
 import os
 from selenium.webdriver.common.keys import Keys
 import re
-import subprocess
 import requests
 from typing import Generator
 import re
-
-def get_chrome_version():
-    try:
-        # Works for both google-chrome-stable and chromium
-        output = subprocess.check_output(["google-chrome-stable", "--version"]).decode()
-    except FileNotFoundError:
-        output = subprocess.check_output(["chromium", "--version"]).decode()
-    match = re.search(r"(\d+)\.", output)
-    if match:
-        version = match.group(1)
-    else:
-        raise Exception("chrome driver version not found")
-    print("using chrome driver version " + version)
-    return int(version)
 
 def startdriver(args):
     global driver
@@ -37,9 +20,7 @@ def startdriver(args):
     options.add_argument("--no-sandbox")
     options.add_argument("--shm-size=2g")
     options.add_argument("--window-size=1280,720")
-    driver = undetected_chromedriver.Chrome(
-        service=Service(ChromeDriverManager().install()), options=options , version_main=get_chrome_version()
-    )
+    driver = undetected_chromedriver.Chrome(options=options)
     if args.verbose: print(f"DEBUG: started driver {str(driver)}")
 
 def translate(text,lang,args) -> str:

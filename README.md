@@ -85,3 +85,4 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > delete translated chapters stored in cache for some reason  
 > make it so that if memory is full then it `rm -rf`s the translations  
 > when the text is loading give it a default value of a loading wheel gif + a lot of \n so that the bottom bar isnt shown  
+> add hotkeys to navigate chapters  
