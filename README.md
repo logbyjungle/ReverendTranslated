@@ -86,3 +86,4 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > make it so that if memory is full then it `rm -rf`s the translations  
 > when the text is loading give it a default value of a loading wheel gif + a lot of \n so that the bottom bar isnt shown  
 > add hotkeys to navigate chapters  
+> check if the program is run correctly even if it is run from another directory  
