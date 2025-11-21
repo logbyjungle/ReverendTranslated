@@ -99,7 +99,7 @@ def translatewhole(chapter,lang,args) -> Generator[list[str]]:
         elif args.verbose: print(f"DEBUG: content has less than 500 characters")
     elif args.verbose: print(f"DEBUG: translated chapter not found")
 
-    patters = []
+    patterns = []
     if not args.noreplace:
         url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}.txt"
         response = requests.get(url)
@@ -109,9 +109,9 @@ def translatewhole(chapter,lang,args) -> Generator[list[str]]:
             counter = 0
             for i in range(len(lines)):
                 if i % 3 == 0:
-                    patters.append([lines[i]])
+                    patterns.append([lines[i]])
                 if i % 3 == 1:
-                    patters[counter].append(lines[i])
+                    patterns[counter].append(lines[i])
                 if i % 3 == 2:
                     counter += 1
                     if "---" not in lines[i]:
@@ -129,7 +129,7 @@ def translatewhole(chapter,lang,args) -> Generator[list[str]]:
         translated_lines = translated.splitlines()
 
         for i in range(len(translated_lines)):
-            for pattern in patters:
+            for pattern in patterns:
                 old = translated_lines[i]
                 translated_lines[i] = re.sub(pattern[0],pattern[1],translated_lines[i])
                 if args.verbose and translated_lines[i] != old:
