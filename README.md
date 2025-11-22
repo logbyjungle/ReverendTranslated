@@ -18,7 +18,7 @@ cd ReverendTranslated
 pip install -m requirements.txt # use a venv if you want to
 python main.py
 ```
-and then enter the site at `localhost:5000`  
+And then enter the site at `localhost:5000`  
 
 ## If you instead want to host it for others you have to:  
 - make sure you are not under **NAT**  
@@ -27,15 +27,16 @@ and then enter the site at `localhost:5000`
 
 - Use [Duckdns](https://www.duckdns.org) to get a static address  
 - I advise setting up a script in the host machine to update the public ip for Duckdns  
-- make a `.env` file and put these info in this following format:  
+- Make a `.env` file and put these info in this following format:  
 ```sh
 DOMAIN=yourdomain.com
 TZ=Europe/Rome
 TOKEN=yourduckdnstoken
 EMAIL=youremail@gmail.com # its required apparently
 ```
-- `docker compose up -d --build --scale flask-app=NUMBEROFWORKERS` Use Docker Compose instead of normal Docker  
-- both the `docker-compose.yml` and `.env` files can be deleted once it finishes building and running the containers  
+- `docker compose up -d --build` Use Docker Compose instead of normal Docker  
+- If you want to add more workers then use this method instead: `COMPOSE_PROFILES=workers docker compose up -d build --scale more-flask=2`, this for example adds 2 more workers  
+- Both the `docker-compose.yml` and `.env` files can be deleted once it finishes building and running the containers  
 - Port forward ports **80(http) and 443(https)**, remember to make your **ipv4** address static  
 
 ### If you also want to make everything more secure you have to use **https**:  
@@ -87,3 +88,5 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > when the text is loading give it a default value of a loading wheel gif + a lot of \n so that the bottom bar isnt shown  
 > add hotkeys to navigate chapters  
 > check if the program is run correctly even if it is run from another directory  
+> replace multiple containers with multiple workers  
+> add a work only to load the template of the page  

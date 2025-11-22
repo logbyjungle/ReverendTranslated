@@ -60,7 +60,15 @@ def translate(text,lang,args) -> str:
         ) # raises exception
         if args.verbose: print(f"DEBUG: copy translation found")
 
-    output = driver.find_element("tag name","body").text
+    output = "none"
+    while True:
+        try:
+            if output == "none":
+                output = driver.find_element(By.TAG_NAME,"body").text # raises exception
+                break
+        except Exception:
+            driver.implicitly_wait(0.2)
+
     outputs = []
     start = False
     lines = output.splitlines()
@@ -92,11 +100,11 @@ def translatewhole(chapter,lang,args) -> Generator[list[str]]:
         if args.verbose: print(f"DEBUG: translated chapter found")
         with open("translations/" + filename, 'r') as file:
             content = file.read()
-        if len(content) > 500:
-            if args.verbose: print(f"DEBUG: content has more than 500 characters")
+        if len(content) > 8000:
+            if args.verbose: print(f"DEBUG: content has more than 800 characters")
             yield [line.strip('\n') for line in content.splitlines()]
             return
-        elif args.verbose: print(f"DEBUG: content has less than 500 characters")
+        elif args.verbose: print(f"DEBUG: content has less than 800 characters")
     elif args.verbose: print(f"DEBUG: translated chapter not found")
 
     patterns = []

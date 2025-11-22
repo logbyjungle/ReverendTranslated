@@ -63,5 +63,9 @@ def page(lang, chapter):
     _ = lang # suppresses unused lang warning
     return stream_template("chapter.html",chapter=chapter)
 
+@app.route("/health",methods=["GET"])
+def health():
+    return "OK",200
+
 if __name__ == '__main__':
     app.run(debug=True,use_reloader=False,host="0.0.0.0")

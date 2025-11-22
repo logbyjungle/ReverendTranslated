@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install gunicorn gevent
+    && pip install gunicorn
 
 COPY static ./static
 COPY templates ./templates
@@ -19,9 +19,7 @@ COPY main.py .
 COPY bot.py .
 COPY .git ./.git
 
-EXPOSE 5000
-
 ENV FLASK_APP=main.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
-CMD ["gunicorn","-w","1","-k","gevent","-b","0.0.0.0:5000","-t","120","main:app"]
+CMD ["gunicorn","-w","1","-k","sync","-b","0.0.0.0:5000","-t","120","main:app","--log-level","debug"]

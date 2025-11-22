@@ -1,4 +1,12 @@
 
+resolver 127.0.0.11 valid=30s;
+
+upstream flask_backend {
+    least_conn;
+    server flask-app:5000;
+    server more-flask:5000;
+}
+
 server {
     listen 80;
     server_name ${DOMAIN};
@@ -22,7 +30,7 @@ server {
     }
 
     location / {
-        proxy_pass http://flask-app:5000;
+        proxy_pass http://flask_backend;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

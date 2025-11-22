@@ -4,17 +4,30 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
+    ports:
+      - "5000:5000"
     expose:
       - "5000"
-    environment:
-      - FLASK_APP=main.py
-      - FLASK_RUN_HOST=0.0.0.0
-      - DISPLAY=:99
     volumes:
       - translations-data:/docker-flask/translations
     dns:
       - 1.1.1.1
       - 8.8.8.8
+
+  more-flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    expose:
+      - "5000"
+    volumes:
+      - translations-data:/docker-flask/translations
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    profiles:
+      - workers
 
   nginx:
     env_file:
