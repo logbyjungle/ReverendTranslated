@@ -9,6 +9,8 @@
     <i>Thats why i'll be trying to add an option to choose which version to base the translation on</i><br>
 </p>
 
+![Build](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+
 ---
 
 ## In order to be run locally you just have to:
@@ -35,7 +37,9 @@ TOKEN=yourduckdnstoken
 EMAIL=youremail@gmail.com # its required apparently
 ```
 - `docker compose up -d --build` Use Docker Compose instead of normal Docker  
-- If you want to add more workers then use this method instead: `COMPOSE_PROFILES=workers docker compose up -d build --scale more-flask=2`, this for example adds 2 more workers  
+- If you want to add more workers then use this method instead:  
+`COMPOSE_PROFILES=workers docker compose up -d build --scale more-flask=2`  
+    *This for example adds 2 more workers*  
 - Both the `docker-compose.yml` and `.env` files can be deleted once it finishes building and running the containers  
 - Port forward ports **80(http) and 443(https)**, remember to make your **ipv4** address static  
 

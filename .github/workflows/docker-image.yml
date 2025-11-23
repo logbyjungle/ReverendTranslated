@@ -1,0 +1,25 @@
+
+name: Docker/Flask
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      DOMAIN: localhost
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: COMPOSE_PROFILES=workers docker compose up -d build --scale more-flask=2
+    - name: Wait for app
+      run: ./tests/check_health.sh
+    - name: Stop Docker
+      run: docker compose down
