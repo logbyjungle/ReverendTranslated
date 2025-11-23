@@ -9,7 +9,7 @@
     <i>Thats why i'll be trying to add an option to choose which version to base the translation on</i><br>
 </p>
 
-![Build](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![Build](https://github.com/logbyjungle/ReverendTranslated/actions/workflows/docker-image.yml/badge.svg)
 
 ---
 

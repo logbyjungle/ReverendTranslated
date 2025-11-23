@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: COMPOSE_PROFILES=workers docker compose up -d build --scale more-flask=2
+      run: COMPOSE_PROFILES=workers docker compose up -d --build --scale more-flask=2
     - name: Wait for app
       run: ./tests/check_health.sh
     - name: Stop Docker
