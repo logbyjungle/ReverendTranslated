@@ -12,11 +12,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      DOMAIN: localhost
 
     steps:
     - uses: actions/checkout@v4
+    - name: Create .env for docker
+      run: echo "DOMAIN=localhost" > .env
     - name: Build the Docker image
       run: COMPOSE_PROFILES=workers docker compose up -d --build --scale more-flask=2
     - name: Wait for app
