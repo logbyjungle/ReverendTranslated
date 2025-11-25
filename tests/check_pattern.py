@@ -14,11 +14,13 @@ for lang in langs.values():
                 try:
                     re.compile(lines[i_line])
                 except Exception:
-                    print(f"REGEX PATTERN ERROR ON LINE {i_line}")
+                    print(f"REGEX PATTERN ERROR ON LINE {i_line+1} FOR FILE {lang+'.txt'}")
+                    print(">>>   " + lines[i_line])
                     sys.exit(1)
             elif i_line % 3 == 2:
-                if lines[i_line] != "---":
-                    print(f'F" "---" ON LINE {i_line}')
+                if "---" not in lines[i_line]:
+                    print(f'"---" HASNT BEEN FOUND ON LINE {i_line+1} FOR FILE {lang+'.txt'}')
+                    print(">>>   " + lines[i_line])
                     sys.exit(1)
     except Exception: pass
 
