@@ -20,6 +20,6 @@ jobs:
     - name: Build the Docker image
       run: COMPOSE_PROFILES=workers docker compose up -d --build --scale more-flask=2
     - name: Wait for app
-      run: ./tests/check_health.sh
+      run: python ./tests/check_health.py
     - name: Stop Docker
       run: docker compose down

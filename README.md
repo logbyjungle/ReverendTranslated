@@ -40,7 +40,7 @@ EMAIL=youremail@gmail.com # its required apparently
 - If you want to add more workers then use this instead:  
 `COMPOSE_PROFILES=workers docker compose up -d --build --scale more-flask=2`  
     *This for example adds 2 more workers*  
-- Both the `docker-compose.yml` and `.env` files can be deleted once it finishes building and running the containers  
+- Both the `docker-compose.yml` and `.env` files can be deleted once it finishes building and is running the containers  
 - Port forward ports **80(http) and 443(https)**, remember to make your **ipv4** address static  
 
 ### If you also want to make everything more secure you have to use **https**:  
@@ -60,19 +60,8 @@ The certificates can be managed in the `etc` folder, in case you want to use ano
 
 ---
 
-### You've noticed a translation problem and wish to fix it?  
-Go to the `chapters` branch of the repository and look for a file with the same name of the id of your language  
-If there is none create it  
-Write into it with this following format  
-```
-Pattern
-Replacement
----
-```
-Every `Pattern` is a python regex pattern, every `Replacement` is the text you want to replace the pattern with  
-Multiple patterns can be inserted, just make sure there is a `---` to separate them  
-
----
+> [!info] You've noticed a translation problem and wish to fix it?  
+> Check out the `chapters` branch  
 
 This is a site hosted utilizing flask, it takes pages of RI's chapters from other sites and translate them by using google translate via selenium  
 
