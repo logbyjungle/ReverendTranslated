@@ -1,0 +1,17 @@
+
+name: Translation Fix
+
+on:
+  push:
+    branches: [ "chapters" ]
+  pull_request:
+    branches: [ "chapters" ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check translation fix files
+        run: python ./tests/check_pattern.py
