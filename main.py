@@ -28,7 +28,12 @@ parser.add_argument("--noreplace",action="store_true",help="disables replacing t
 args,_ = parser.parse_known_args()
 
 if not args.nodriver:
-    startdriver(args)
+    while True:
+        try:
+            startdriver(args)
+            break
+        except Exception as e:
+            print("failed to start driver due to error " + str(e))
 
 def validity_check(func):
     @wraps(func)
