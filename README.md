@@ -82,4 +82,6 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > replace multiple containers with multiple workers  
 > add a worker only to load the template of the page  
 > add test to check if chapters are correctly translated  
-> add test to check if the pattern is correct when making a PR to chapters branch  
+> add badge that checkes if the `chapters` branch's checks were successful too  
+> restarting the container doesn't always work  
+> use webassembly where it can be used  
