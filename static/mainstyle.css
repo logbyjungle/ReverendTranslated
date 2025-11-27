@@ -2,7 +2,7 @@
     --bg: #f0f2f5;
     --text: #333333;
     --card-bg: #ffffff;
-    --card-border: rgba(0,0,0,0.06);
+    --card-border: rgba(0, 0, 0, 0.06);
     --link: #007bff;
     --muted: #6b7280;
     --ring: #58a6ff;
@@ -13,14 +13,14 @@
         --bg: #0f1115;
         --text: #e6e6e6;
         --card-bg: #171a1f;
-        --card-border: rgba(255,255,255,0.08);
+        --card-border: rgba(255, 255, 255, 0.08);
         --link: #58a6ff;
         --muted: #9aa4b2;
     }
 }
 
 img {
-     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
 }
 
 :root.dark-mode,
@@ -28,14 +28,19 @@ html.dark-mode {
     --bg: #0f1115;
     --text: #e6e6e6;
     --card-bg: #171a1f;
-    --card-border: rgba(255,255,255,0.08);
+    --card-border: rgba(255, 255, 255, 0.08);
     --link: #58a6ff;
     --muted: #9aa4b2;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -52,7 +57,7 @@ body {
     min-height: 100vh;
 }
 
-body > div,
+body>div,
 main,
 .container,
 .home-card {
@@ -67,17 +72,25 @@ main,
     text-align: center;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     margin: 0 0 16px 0;
     line-height: 1.2;
 }
-p { line-height: 1.7; }
+
+p {
+    line-height: 1.7;
+}
 
 a {
     color: var(--link);
     text-decoration: none;
 }
-a:hover { text-decoration: underline; }
+
+a:hover {
+    text-decoration: underline;
+}
 
 
 .home-button,
@@ -91,12 +104,19 @@ button[role="button"] {
     font-weight: bold;
     transition: transform 0.06s ease, filter 0.2s ease;
 }
-.home-button:hover,
-button[role="button"]:hover { filter: brightness(1.05); }
-.home-button:active,
-button[role="button"]:active { transform: translateY(1px); }
 
-input, select {
+.home-button:hover,
+button[role="button"]:hover {
+    filter: brightness(1.05);
+}
+
+.home-button:active,
+button[role="button"]:active {
+    transform: translateY(1px);
+}
+
+input,
+select {
     border: 1px solid var(--card-border);
     background: var(--card-bg);
     color: var(--text);
@@ -116,17 +136,25 @@ select:focus-visible {
     body {
         padding: 12px;
     }
-    body > div,
+
+    body>div,
     .container,
     .home-card {
         padding: 20px;
     }
-    h1 { font-size: 1.6rem; }
-    p, #lang { font-size: 1rem; }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    p,
+    #lang {
+        font-size: 1rem;
+    }
 }
 
 .selectize-dropdown .option.active {
-    color:#ffffff;
+    color: #ffffff;
     background-color: #171a1f;
 }
 
@@ -143,12 +171,15 @@ select:focus-visible {
 
 /* Hide scrollbar but keep scrolling */
 .selectize-dropdown-content {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge (legacy) */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge (legacy) */
 }
 
 .selectize-dropdown-content::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
+    display: none;
+    /* Chrome, Safari, Edge */
 }
 
 /* Remove the dropdown arrow indicator */
