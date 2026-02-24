@@ -83,5 +83,7 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > add a worker only to load the template of the page  
 > add test to check if chapters are correctly translated  
 > add badge that checkes if the `chapters` branch's checks were successful too  
-> restarting the container doesn't always work  
+> fix that restarting the container makes https stop working  
 > use webassembly where it can be used  
+> make the service easily deployable on render  
+> if showing an already translated chapter check if the translation has updated in the github repo  
