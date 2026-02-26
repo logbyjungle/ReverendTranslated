@@ -8,7 +8,7 @@
         <meta charset="UTF-8">
         <title>ReverendTranslated</title>
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}" />
-        <link rel="stylesheet" href="../static/mainstyle.css">
+        <link rel="stylesheet" src="{{ url_for('static', filename='mainstyle.css') }}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" content="#0f1115" />
         <link rel="canonical" href="{{ request.url_root | trim('/') }}" />

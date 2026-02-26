@@ -85,5 +85,5 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > add badge that checkes if the `chapters` branch's checks were successful too  
 > fix that restarting the container makes https stop working  
 > use webassembly where it can be used  
-> make the service easily deployable on render  
 > if showing an already translated chapter check if the translation has updated in the github repo  
+> decrease memory usage  
