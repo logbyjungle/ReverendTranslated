@@ -4,7 +4,8 @@ FROM python:3.13-slim
 WORKDIR /docker-flask
 
 RUN apt-get update && apt-get install -y \
-    chromium chromium-driver wget unzip git \
+    # chromium chromium-driver wget unzip git \
+    chromium wget unzip git \
     build-essential libffi-dev python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
