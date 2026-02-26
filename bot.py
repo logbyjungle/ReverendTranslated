@@ -12,13 +12,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-def in_docker():
-    try:
-        return os.stat('/.dockerenv')
-    except Exception:
-        return False
-
-
 def startdriver(args):
     global driver
     options = Options()
@@ -38,8 +31,10 @@ def startdriver(args):
     options.add_argument("--disable-hang-monitor")
     options.add_argument("--disable-sync")
     options.add_argument("--disable-translate")
-    if in_docker():
-        options.binary_location = "/opt/chrome/chrome"
+
+    if os.path.exists("/.dockerenv"):
+        options.binary_location = "/usr/bin/google-chrome"
+
     driver = undetected_chromedriver.Chrome(options=options)
     if args.verbose:
         print(f"DEBUG: started driver {str(driver)}")

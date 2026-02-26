@@ -10,10 +10,13 @@ RUN apt-get update && apt-get install -y \
     build-essential libffi-dev python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y curl unzip \
-    && curl -LO https://storage.googleapis.com/chrome-for-testing-public/146.0.0.0/linux64/chrome-linux64.zip \
-    && unzip chrome-linux64.zip \
-    && mv chrome-linux64 /opt/chrome
+RUN wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google.gpg \
+    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+       > /etc/apt/sources.list.d/google.list \
+    && apt-get update
+
+RUN apt-get install -y google-chrome-stable=145.0.7632.116-1 \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
