@@ -34,8 +34,10 @@ def startdriver(args):
 
     if os.path.exists("/.dockerenv"):
         options.binary_location = "/usr/bin/google-chrome"
+        driver = undetected_chromedriver.Chrome(options=options,version_main=145)
+    else:
+        driver = undetected_chromedriver.Chrome(options=options)
 
-    driver = undetected_chromedriver.Chrome(options=options)
     if args.verbose:
         print(f"DEBUG: started driver {str(driver)}")
 
