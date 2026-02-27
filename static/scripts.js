@@ -1,8 +1,3 @@
-$(document).ready(function () {
-    $("#lang").selectize({
-        sortField: "text",
-    });
-});
 
 const currentUrl = globalThis.location.href;
 const urlParts = currentUrl.split("/");
@@ -26,70 +21,52 @@ if (currentChapter === 2334) {
 
 const select = document.getElementById("list");
 
-for (let i = 1; i <= 2334; i++) {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = "Chapter " + i;
-    if (i === currentChapter) {
-        option.selected = true;
+if (select) {
+    for (let i = 1; i <= 2334; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = "Chapter " + i;
+        if (i === currentChapter) {
+            option.selected = true;
+        }
+        select.appendChild(option);
     }
-    select.appendChild(option);
+
+    select.addEventListener("change", function () {
+        const selectedChapter = select.value;
+        if (selectedChapter != currentChapter) {
+            urlParts[urlParts.length - 1] = selectedChapter;
+            globalThis.location.href = urlParts.join("/");
+        }
+    });
 }
 
-select.addEventListener("change", function () {
-    const selectedChapter = select.value;
-    if (selectedChapter != currentChapter) {
-        urlParts[urlParts.length - 1] = selectedChapter;
-        globalThis.location.href = urlParts.join("/");
-    }
-});
 
 const selectbottom = document.getElementById("listbottom");
 
-for (let i = 1; i <= 2334; i++) {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = "Chapter " + i;
-    if (i === currentChapter) {
-        option.selected = true;
+if (selectbottom) {
+    for (let i = 1; i <= 2334; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = "Chapter " + i;
+        if (i === currentChapter) {
+            option.selected = true;
+        }
+        selectbottom.appendChild(option);
     }
-    selectbottom.appendChild(option);
+
+    selectbottom.addEventListener("change", function () {
+        const selectedChapter = selectbottom.value;
+        if (selectedChapter != currentChapter) {
+            urlParts[urlParts.length - 1] = selectedChapter;
+            globalThis.location.href = urlParts.join("/");
+        }
+    });
 }
 
-selectbottom.addEventListener("change", function () {
-    const selectedChapter = selectbottom.value;
-    if (selectedChapter != currentChapter) {
-        urlParts[urlParts.length - 1] = selectedChapter;
-        globalThis.location.href = urlParts.join("/");
-    }
-});
+if (document.getElementById("prevChapter")) {
 
-document.getElementById("prevChapter").addEventListener("click", function () {
-    const currentUrl = globalThis.location.href;
-    const urlParts = currentUrl.split("/");
-
-    const currentChapter = parseInt(urlParts[urlParts.length - 1]);
-
-    const prevChapter = currentChapter - 1;
-    urlParts[urlParts.length - 1] = prevChapter;
-    const newUrl = urlParts.join("/");
-    globalThis.location.href = newUrl;
-});
-document.getElementById("nextChapter").addEventListener("click", function () {
-    const currentUrl = globalThis.location.href;
-    const urlParts = currentUrl.split("/");
-
-    const currentChapter = parseInt(urlParts[urlParts.length - 1]);
-
-    const nextChapter = currentChapter + 1;
-    urlParts[urlParts.length - 1] = nextChapter;
-    const newUrl = urlParts.join("/");
-    globalThis.location.href = newUrl;
-});
-
-document.getElementById("prevChapterBottom").addEventListener(
-    "click",
-    function () {
+    document.getElementById("prevChapter").addEventListener("click", function () {
         const currentUrl = globalThis.location.href;
         const urlParts = currentUrl.split("/");
 
@@ -99,11 +76,9 @@ document.getElementById("prevChapterBottom").addEventListener(
         urlParts[urlParts.length - 1] = prevChapter;
         const newUrl = urlParts.join("/");
         globalThis.location.href = newUrl;
-    },
-);
-document.getElementById("nextChapterBottom").addEventListener(
-    "click",
-    function () {
+    });
+
+    document.getElementById("nextChapter").addEventListener("click", function () {
         const currentUrl = globalThis.location.href;
         const urlParts = currentUrl.split("/");
 
@@ -113,10 +88,41 @@ document.getElementById("nextChapterBottom").addEventListener(
         urlParts[urlParts.length - 1] = nextChapter;
         const newUrl = urlParts.join("/");
         globalThis.location.href = newUrl;
-    },
-);
+    });
 
-function _LightDark() {
+    document.getElementById("prevChapterBottom").addEventListener(
+        "click",
+        function () {
+            const currentUrl = globalThis.location.href;
+            const urlParts = currentUrl.split("/");
+
+            const currentChapter = parseInt(urlParts[urlParts.length - 1]);
+
+            const prevChapter = currentChapter - 1;
+            urlParts[urlParts.length - 1] = prevChapter;
+            const newUrl = urlParts.join("/");
+            globalThis.location.href = newUrl;
+        },
+    );
+
+    document.getElementById("nextChapterBottom").addEventListener(
+        "click",
+        function () {
+            const currentUrl = globalThis.location.href;
+            const urlParts = currentUrl.split("/");
+
+            const currentChapter = parseInt(urlParts[urlParts.length - 1]);
+
+            const nextChapter = currentChapter + 1;
+            urlParts[urlParts.length - 1] = nextChapter;
+            const newUrl = urlParts.join("/");
+            globalThis.location.href = newUrl;
+        },
+    );
+}
+
+
+function LightDark() {
     const element = document.body;
     element.classList.toggle("dark-mode");
 
@@ -127,12 +133,12 @@ function _LightDark() {
     }
 }
 
-function _changeFont(font) {
+function changeFont(font) {
     document.body.style.fontFamily = font;
     localStorage.setItem("fontFamily", font);
 }
 
-function _changeFontSize(size) {
+function changeFontSize(size) {
     document.querySelectorAll(".content").forEach((el) => {
         el.style.fontSize = size;
         localStorage.setItem("fontSize", size);
@@ -152,25 +158,28 @@ async function streamContent() {
     let buffer = "";
     let isfirstline = true;
 
-    while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+    if (contentDiv) {
 
-        buffer += decoder.decode(value, { stream: true });
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
 
-        const lines = buffer.split("\n");
-        buffer = lines.pop();
+            buffer += decoder.decode(value, { stream: true });
 
-        lines.forEach((line) => {
-            if (line.trim()) {
-                const p = document.createElement(isfirstline ? "h2" : "p");
-                p.textContent = line;
-                contentDiv.appendChild(p);
-                isfirstline = false;
-            }
-        });
+            const lines = buffer.split("\n");
+            buffer = lines.pop();
 
-        contentDiv.scrollTop = contentDiv.scrollHeight;
+            lines.forEach((line) => {
+                if (line.trim()) {
+                    const p = document.createElement(isfirstline ? "h2" : "p");
+                    p.textContent = line;
+                    contentDiv.appendChild(p);
+                    isfirstline = false;
+                }
+            });
+
+            contentDiv.scrollTop = contentDiv.scrollHeight;
+        }
     }
 
     if (buffer.trim()) {
@@ -181,6 +190,19 @@ async function streamContent() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    const select = document.getElementById("lang");
+    if (select) {
+        $(select).selectize({
+            sortField: "text",
+            onChange: function(value) {
+                if (value) {
+                    globalThis.location.href = `/${value}/1`;
+                }
+            }
+        });
+    }
+
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
         document.body.classList.add("dark-mode");
@@ -203,30 +225,39 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const defaultOptionTop = document.getElementById("defaultoptiontop");
-defaultOptionTop.textContent = "Choose a chapter";
-defaultOptionTop.disabled = true;
-const defaultOptionBottom = document.getElementById("defaultoptionbottom");
-defaultOptionBottom.textContent = "Choose a chapter";
-defaultOptionBottom.disabled = true;
+
+if (defaultOptionTop) {
+    defaultOptionTop.textContent = "Choose a chapter";
+    defaultOptionTop.disabled = true;
+    const defaultOptionBottom = document.getElementById("defaultoptionbottom");
+    defaultOptionBottom.textContent = "Choose a chapter";
+    defaultOptionBottom.disabled = true;
+}
 
 for (let i = 1; i <= 2334; i++) {
     const optTop = document.createElement("option");
     optTop.value = String(i);
     optTop.textContent = "Chapter " + i;
     if (i === currentChapter) optTop.selected = true;
-    select.appendChild(optTop);
+    if (select) {
+        select.appendChild(optTop);
+    }
 
     const optBottom = document.createElement("option");
     optBottom.value = String(i);
     optBottom.textContent = "Chapter " + i;
     if (i === currentChapter) optBottom.selected = true;
-    selectbottom.appendChild(optBottom);
+    if (selectbottom) {
+        selectbottom.appendChild(optBottom);
+    }
 }
 
-select.value = String(currentChapter);
-selectbottom.value = String(currentChapter);
+if (select) {
+    select.value = String(currentChapter);
+    selectbottom.value = String(currentChapter);
+}
 
-function _redirectToPage() {
+function redirectToPage() {
     const select = document.getElementById("lang");
     const value = select.value;
     if (value) {

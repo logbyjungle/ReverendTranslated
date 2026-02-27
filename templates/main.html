@@ -32,8 +32,8 @@
             <section aria-labelledby="languages-title" style="margin-top: 18px;">
                 <h2 id="languages-title">Selecting a language takes you to chapter 1 ↓</h2>
                 <label class="sr-only" for="lang">Language</label>
-                <select name="lang" id="lang" placeholder="Choose a language 🗺️" onchange="redirectToPage()">
-                    <option value="" disabled selected>Select…</option>
+                <select name="lang" id="lang">
+                    <option value="" disabled selected>Choose a language 🗺️</option>
                     {% for name, slug in mapping.items() %}
                         <option value="{{ slug }}">{{ name }}</option>
                     {% endfor %}
