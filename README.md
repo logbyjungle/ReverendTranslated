@@ -87,3 +87,4 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > use webassembly where it can be used  
 > if showing an already translated chapter check if the translation has updated in the github repo  
 > decrease memory usage  
+> make render.com work properly  
