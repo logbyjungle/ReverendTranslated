@@ -23,7 +23,7 @@ python main.py
 And then enter the site at `localhost:5000`  
 
 ## If you instead want to host it for others you have to:  
-- make sure you are not under **NAT**  
+- make sure you are not under **NAT**, otherwise check out the `tunnel` branch  
 - `git clone https://github.com/logbyjungle/ReverendTranslated.git`  
 - `cd ReverendTranslated`  
 
@@ -89,3 +89,5 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > make it possible to host it even under NAT, maybe with tunnelling and uploading the tunnelling ip to github  
 > integrate cloudflare  
 > some images are taken directly from the logbyjungle/ReverendTranslated repository instead of changing the repository dynamically if forked  
+> fix strange boxes appearing in the main page  
+> make getting the untraslated chapters not centralized on my repository but on the local version of the repository of the user  
