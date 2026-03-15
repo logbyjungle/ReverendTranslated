@@ -30,23 +30,25 @@ services:
       - workers
 
   nginx:
-    env_file:
-      - .env
     build:
       context: .
       dockerfile: nginx.Dockerfile
-    container_name: nginx
+    image: nginx-latest
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "8000:80"
     depends_on:
       - flask-app
-    volumes:
-      - ./etc/letsencrypt:/etc/letsencrypt
     dns:
       - 1.1.1.1
       - 8.8.8.8
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --url http://nginx:80
+    depends_on:
+      - nginx
 
 volumes:
   translations-data:
