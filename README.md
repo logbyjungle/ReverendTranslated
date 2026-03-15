@@ -68,7 +68,6 @@ This is a site hosted utilizing flask, it takes pages of RI's chapters from othe
 The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe by making sure everyone can read it  
 
 > ***TODO***  
-> implement security features: protection from ddos,fail2ban,modsecurity...  
 > make it possible to get translation from the original chinese version  
 > translate the languages in language selection menu to their own language  
 > add multiprocessing to translation  
@@ -83,8 +82,10 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > add a worker only to load the template of the page  
 > add test to check if chapters are correctly translated  
 > add badge that checkes if the `chapters` branch's checks were successful too  
-> fix that restarting the container makes https stop working  
 > use webassembly where it can be used  
 > if showing an already translated chapter check if the translation has updated in the github repo  
-> decrease memory usage  
-> make render.com work properly  
+> fix search bar colors in main page and unknown commit  
+> convert chapters in the chapters branch from plain text to compressed  
+> make it possible to host it even under NAT, maybe with tunnelling and uploading the tunnelling ip to github  
+> integrate cloudflare  
+> some images are taken directly from the logbyjungle/ReverendTranslated repository instead of changing the repository dynamically if forked  

@@ -17,8 +17,7 @@ RUN apt-get install -y google-chrome-stable=145.0.7632.116-1 \
     && rm -rf /var/lib/apt/lists/* 
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install gunicorn 
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY static ./static
 COPY templates ./templates

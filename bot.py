@@ -123,7 +123,24 @@ def translate(text, lang, args) -> str:
 
 
 def scrape_chapter(chapter, args) -> str:
+
     url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/chapters/{chapter}.txt"
+    # this hasnt been tested yet
+    if os.path.isfile("./.git/config"):
+        with open("./.git/config") as file:
+            lines = file.readlines()
+        take = False
+        for line in lines:
+            if "[remote \"origin\"]" in line:
+                take = True
+            elif take and "url = " in line:
+                if "github.com/" in url:
+                    url = f"https://raw.githubusercontent.com/{url.split('github.com/')[1].replace('.git','')}/refs/heads/chapters/chapters/{chapter}.txt"
+
+                elif "git@github.com:" in url:
+                    url = f"https://raw.githubusercontent.com/{url.split('git@github.com:')[1].replace('.git','')}/refs/heads/chapters/chapters/{chapter}.txt"
+            break
+
     response = requests.get(url)
     if args.verbose:
         print(
@@ -155,7 +172,24 @@ def translatewhole(chapter, lang, args) -> Generator[list[str]]:
 
     patterns = []
     if not args.noreplace:
+
         url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}.txt"
+        # this hasnt been tested yet
+        if os.path.isfile("./.git/config"):
+            with open("./.git/config") as file:
+                lines = file.readlines()
+            take = False
+            for line in lines:
+                if "[remote \"origin\"]" in line:
+                    take = True
+                elif take and "url = " in line:
+                    if "github.com/" in url:
+                        url = f"https://raw.githubusercontent.com/{url.split('github.com/')[1].replace('.git','')}/refs/heads/chapters/{lang}.txt"
+
+                    elif "git@github.com:" in url:
+                        url = f"https://raw.githubusercontent.com/{url.split('git@github.com:')[1].replace('.git','')}/refs/heads/chapters/{lang}.txt"
+                break
+
         response = requests.get(url)
         if response.status_code == 200:
             if args.verbose:
