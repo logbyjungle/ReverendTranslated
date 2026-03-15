@@ -13,8 +13,11 @@ RUN wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor 
        > /etc/apt/sources.list.d/google.list \
     && apt-get update 
 
-RUN apt-get install -y google-chrome-stable=145.0.7632.116-1 \
-    && rm -rf /var/lib/apt/lists/* 
+RUN wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_145.0.7632.116-1_amd64.deb \
+    && apt-get update \
+    && apt-get install -y ./google-chrome-stable_145.0.7632.116-1_amd64.deb \
+    && rm google-chrome-stable_145.0.7632.116-1_amd64.deb \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
