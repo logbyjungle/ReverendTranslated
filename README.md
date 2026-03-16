@@ -34,7 +34,8 @@ GITTOKEN=example
 ```
 Run this command to start the backend on your device  
 `COMPOSE_PROFILES=workers docker compose up -d --build --scale more-flask=HOWMANYEXTRAWORKERSYOUWANT`  
-Go to `render.com` and create a new web service, using your github repository as the source code  
+Go to `render.com` and create a new web service, using your github repository as the source code, make sure to select the `tunnel` branch  
+Set as an environment variable called `REPO` your github repository, example: `logbyjungle/ReverendTranslated`  
 
 
 > ***TODO***  
