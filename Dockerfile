@@ -2,10 +2,10 @@ FROM nginx:alpine
 
 RUN apk add --no-cache bash gettext
 
-COPY nginx_entrypoint.sh /start.sh
+COPY nginx_entrypoint.sh /nginx_entrypoint.sh
 RUN chmod +x /nginx_entrypoint.sh
 
-COPY nginx.template.conf /etc/nginx/templates/nginx.template.conf
+COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
 
 EXPOSE 80
 
