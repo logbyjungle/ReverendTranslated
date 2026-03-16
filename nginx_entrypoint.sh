@@ -9,7 +9,9 @@ while true; do
     if [ "$HTTP_STATUS" = "200" ]; then
         if [ "$CURRENT_URL" != "$URL" ]; then
             export TUNNEL_URL="$URL"
-            envsubst '${TUNNEL_URL}' < "/nginx.conf.template" > "/etc/nginx/conf.d/default.conf"
+            envsubst '${TUNNEL_URL}' < "/nginx.conf.template" > "/nginx.conf.template2"
+            export TUNNEL_HOST=$(echo $TUNNEL_URL | awk -F/ '{print $3}')
+            envsubst '${TUNNEL_HOST}' < "/nginx.conf.template2" > "/etc/nginx/conf.d/default.conf"
 
             if [ -z "$NGINX_STARTED" ]; then
                 nginx -g 'daemon off;' &
