@@ -25,6 +25,7 @@ fi
 
 git add address.txt
 git commit -m "update tunnel address"
+git pull --rebase --autostash origin tunnel
 git push
 
 wait $CF_PID
