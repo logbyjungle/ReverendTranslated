@@ -35,3 +35,4 @@ GITTOKEN=example
 `COMPOSE_PROFILES=workers docker compose up -d --build --scale more-flask=HOWMANYEXTRAWORKERSYOUWANT`  
 
 !!this readme is not finished yet!!  
+also add github workflows test  
