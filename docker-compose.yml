@@ -44,9 +44,12 @@ services:
       - 8.8.8.8
 
   cloudflared:
-    image: cloudflare/cloudflared:latest
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: cloudflared.Dockerfile
     restart: unless-stopped
-    command: tunnel --url http://nginx:80
     depends_on:
       - nginx
 

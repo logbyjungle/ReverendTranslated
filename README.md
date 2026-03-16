@@ -26,5 +26,12 @@ If it doesn't work you can build the try `Dockerfile`
 ## If you instead want to host it for others you have to:  
 fork the repository  
 clone the `tunnel` branch  
+add your github info to the `.env` file with this format:  
+```
+USERNAME=example
+USEREMAIL=example@example.example
+GITTOKEN=example
+```
 `COMPOSE_PROFILES=workers docker compose up -d --build --scale more-flask=HOWMANYEXTRAWORKERSYOUWANT`  
 
+!!this readme is not finished yet!!  
