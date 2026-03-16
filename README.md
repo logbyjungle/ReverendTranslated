@@ -85,9 +85,6 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > use webassembly where it can be used  
 > if showing an already translated chapter check if the translation has updated in the github repo  
 > fix search bar colors in main page and unknown commit  
-> convert chapters in the chapters branch from plain text to compressed  
-> make it possible to host it even under NAT, maybe with tunnelling and uploading the tunnelling ip to github  
-> integrate cloudflare  
 > some images are taken directly from the logbyjungle/ReverendTranslated repository instead of changing the repository dynamically if forked  
 > fix strange boxes appearing in the main page  
 > make getting the untraslated chapters not centralized on my repository but on the local version of the repository of the user  
