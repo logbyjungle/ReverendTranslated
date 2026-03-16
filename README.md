@@ -24,15 +24,18 @@ And then enter the site at `localhost:5000`
 If it doesn't work you can build the try `Dockerfile`  
 
 ## If you instead want to host it for others you have to:  
-fork the repository  
-clone the `tunnel` branch  
-add your github info to the `.env` file with this format:  
+Fork the repository  
+Clone the `tunnel` branch  
+Add your github info to the `.env` file with this format:  
 ```
 USERNAME=example
 USEREMAIL=example@example.example
 GITTOKEN=example
 ```
+Run this command to start the backend on your device  
 `COMPOSE_PROFILES=workers docker compose up -d --build --scale more-flask=HOWMANYEXTRAWORKERSYOUWANT`  
+Go to `render.com` and create a new web service, using your github repository as the source code  
 
-!!this readme is not finished yet!!  
-also add github workflows test  
+
+> ***TODO***  
+> add github workflows test  

@@ -2,7 +2,7 @@ services:
   flask-app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: flask.Dockerfile
     restart: unless-stopped
     ports:
       - "5000:5000"
@@ -17,7 +17,7 @@ services:
   more-flask:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: flask.Dockerfile
     restart: unless-stopped
     expose:
       - "5000"
