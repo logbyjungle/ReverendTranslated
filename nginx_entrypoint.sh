@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 CURRENT_URL=""
 
@@ -21,5 +20,3 @@ while true; do
         fi
     sleep 10
 done
-
-nginx -g 'daemon off;'

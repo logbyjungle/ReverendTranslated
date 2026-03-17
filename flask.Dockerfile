@@ -27,7 +27,7 @@ COPY templates ./templates
 COPY languages.txt .
 COPY main.py .
 COPY bot.py .
-RUN if [ -d ".git" ]; then cp -r .git ./.git; fi
+COPY .git .git
 
 ENV FLASK_APP=main.py
 ENV FLASK_RUN_HOST=0.0.0.0

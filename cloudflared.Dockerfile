@@ -6,8 +6,8 @@ RUN curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/c
     && chmod +x /usr/local/bin/cloudflared
 
 COPY cloudflared_entrypoint.sh entrypoint.sh
-COPY address.txt address.txt
-COPY .git .git
+RUN mkdir /repo
+COPY .git/config /tmp/gitconfig
 
 RUN chmod +x entrypoint.sh
 
