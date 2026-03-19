@@ -9,8 +9,6 @@
     <i>Thats why i'll be trying to add an option to choose which version to base the translation on</i><br>
 </p>
 
-![Build](https://github.com/logbyjungle/ReverendTranslated/actions/workflows/docker-image.yml/badge.svg)
-
 ---
 
 ## In order to be run locally you just have to:
