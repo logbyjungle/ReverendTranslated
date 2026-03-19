@@ -88,3 +88,6 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > some images are taken directly from the logbyjungle/ReverendTranslated repository instead of changing the repository dynamically if forked  
 > fix strange boxes appearing in the main page  
 > make getting the untraslated chapters not centralized on my repository but on the local version of the repository of the user  
+> add flags under the language search bar  
+> check out kubernetes for implementing auto container scaling  
+> add book cover on chapter 1  
