@@ -6,24 +6,27 @@ while true; do
     URL=$(curl -s "https://raw.githubusercontent.com/$REPO/tunnel/address.txt")
     if [ "$CURRENT_URL" != "$URL" ]; then
         export TUNNEL_URL="$URL"
-        envsubst '${TUNNEL_URL}' < "/nginx.conf.template" > "/nginx.conf.template2"
         export TUNNEL_HOST=$(echo $URL | awk -F/ '{print $3}')
-        envsubst '${TUNNEL_HOST}' < "/nginx.conf.template2" > "/etc/nginx/conf.d/default.conf"
 
-        if [ -z "$NGINX_STARTED" ]; then
-            nginx -g 'daemon off;' &
-            NGINX_STARTED=1
-        else
-            for _ in $(seq 1 10); do
-                if nginx -t && nginx -s reload; then
-                    echo "successful reload of ${URL}"
-                else
-                    echo "unsuccessful reload of ${URL}"
-                fi
-                sleep 10
-            done
+        if curl -sk --head -m 5 "$TUNNEL_URL" > /dev/null 2>&1; then
+            envsubst '${TUNNEL_URL}' < "/nginx.conf.template" > "/nginx.conf.template2"
+            envsubst '${TUNNEL_HOST}' < "/nginx.conf.template2" > "/etc/nginx/conf.d/default.conf"
+
+            if [ -z "$NGINX_STARTED" ]; then
+                nginx -g 'daemon off;' &
+                NGINX_STARTED=1
+            else
+                for _ in $(seq 1 10); do
+                    if nginx -t && nginx -s reload; then
+                        echo "successful reload of ${URL}"
+                        CURRENT_URL="$URL"
+                    else
+                        echo "unsuccessful reload of ${URL}"
+                    fi
+                    sleep 10
+                done
+            fi
         fi
-        CURRENT_URL="$URL"
     fi
     sleep 10
 done
