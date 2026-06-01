@@ -264,3 +264,16 @@ function redirectToPage() {
         globalThis.location.href = `/${value}/1`;
     }
 }
+
+function toggleLanguage() {
+    const pathParts = globalThis.location.pathname.split('/').filter(Boolean);
+    if (pathParts.length >= 2) {
+        if (pathParts[0].startsWith('ch0')) {
+            pathParts[0] = pathParts[0].substring(3);
+        } else {
+            pathParts[0] = 'ch0' + pathParts[0];
+        }
+        const newPath = '/' + pathParts.join('/');
+        globalThis.location.href = newPath;
+    }
+}
