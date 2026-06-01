@@ -4,77 +4,36 @@ import urllib.parse
 from typing import Generator
 
 import requests
-import undetected_chromedriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+from cloakbrowser import launch
+import time
+import threading
 
+playwright_lock = threading.Lock()
 
-def startdriver(args):
-    global driver
-    options = Options()
-    if not args.headful:
-        options.add_argument("--headless=new")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--shm-size=2g")
-    # options.add_argument("--window-size=1280,720")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--single-process")
-    options.add_argument("--no-zygote")
-    options.add_argument("--disable-background-networking")
-    options.add_argument("--disable-background-timer-throttling")
-    options.add_argument("--disable-client-side-phishing-detection")
-    options.add_argument("--disable-default-apps")
-    options.add_argument("--disable-hang-monitor")
-    options.add_argument("--disable-sync")
-    options.add_argument("--disable-translate")
-
-    if os.path.exists("/.dockerenv"):
-        options.binary_location = "/usr/bin/google-chrome"
-        driver = undetected_chromedriver.Chrome(options=options,version_main=145)
-    else:
-        driver = undetected_chromedriver.Chrome(options=options)
-
-    if args.verbose:
-        print(f"DEBUG: started driver {str(driver)}")
-
+def startdriver():
+    global browser
+    browser = launch()
 
 def translate(text, lang, args) -> str:
-
-    driver.get(
-        f"https://translate.google.com/?sl=en&tl={lang}&text={text}&op=translate"
-    )
+    page = browser.new_page()
+    page.goto(f"https://translate.google.com/?sl=en&tl={lang}&text={text}&op=translate")
 
     try:
         try:
-            accept_all = WebDriverWait(driver, 1).until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//button[contains(., 'Accept all')]")
-                )
-            )  # raises exception
+            accept = page.locator("//button[contains(., 'Accept all')]")
 
             if args.verbose:
                 print(f"DEBUG: accept_all found")
-            accept_all.click()
+            accept.first.click()
         except Exception:
             pass
-        _ = WebDriverWait(driver, 5).until(
-            EC.element_to_be_clickable(
-                (By.CSS_SELECTOR, 'button[aria-label="Copy translation"]')
-            )
-        )  # raises exception
+        page.wait_for_selector('button[aria-label="Copy translation"]', timeout=5000)
         if args.verbose:
             print(f"DEBUG: copy translation found")
     except Exception:
         try:
-            accept_all = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//button[contains(., 'Accept all')]")
-                )
-            )  # raises exception
+            page.wait_for_selector("//button[contains(., 'Accept all')]",timeout=10000)
+            accept_all = page.locator("//button[contains(., 'Accept all')]")
             if args.verbose:
                 print(f"DEBUG: accept_all found")
 
@@ -82,15 +41,10 @@ def translate(text, lang, args) -> str:
         except Exception:
             pass
 
-        elem = driver.find_element(By.TAG_NAME, "html")
-        elem.send_keys(Keys.END)
+        page.keyboard.press("End")
         if args.verbose:
             print(f"DEBUG: scrolling to the bottom of the page")
-        _ = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable(
-                (By.CSS_SELECTOR, 'button[aria-label="Copy translation"]')
-            )
-        )  # raises exception
+        page.wait_for_selector('button[aria-label="Copy translation"]', timeout=10000)
         if args.verbose:
             print(f"DEBUG: copy translation found")
 
@@ -98,12 +52,10 @@ def translate(text, lang, args) -> str:
     while True:
         try:
             if output == "none":
-                output = driver.find_element(
-                    By.TAG_NAME, "body"
-                ).text  # raises exception
+                output = page.locator("body").inner_text()
                 break
         except Exception:
-            driver.implicitly_wait(0.2)
+            time.sleep(0.2)
 
     outputs = []
     start = False
@@ -216,7 +168,8 @@ def translatewhole(chapter, lang, args) -> Generator[list[str]]:
         file = open("translations/" + filename, "w")
 
     for to_translate in totranslatewhole(chapter, args):
-        translated = translate(to_translate, lang, args)
+        with playwright_lock:
+            translated = translate(to_translate, lang, args)
         translated = re.sub(r"\n\s*\n+", "\n", translated)
         translated_lines = translated.splitlines()
 
