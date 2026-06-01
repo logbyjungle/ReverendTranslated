@@ -16,7 +16,10 @@ def startdriver():
 
 def translate(text, lang, args) -> str:
     page = browser.new_page()
-    page.goto(f"https://translate.google.com/?sl=en&tl={lang}&text={text}&op=translate")
+    if "0" not in lang:
+        page.goto(f"https://translate.google.com/?sl=en&tl={lang}&text={text}&op=translate")
+    else:
+        page.goto(f"https://translate.google.com/?sl=zh-CN&tl={lang[3:]}&text={text}&op=translate")
 
     try:
         try:
@@ -74,9 +77,12 @@ def translate(text, lang, args) -> str:
     return "\n".join(outputs)
 
 
-def scrape_chapter(chapter, args) -> str:
+def scrape_chapter(chapter, args, lang) -> str:
 
-    url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/chapters/{chapter}.txt"
+    if "0" not in lang:
+        url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/chapters/{chapter}.txt"
+    else:
+        url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/chapters-ch/{chapter}.txt"
     # this hasnt been tested yet
     if os.path.isfile("./.git/config"):
         with open("./.git/config") as file:
@@ -87,10 +93,16 @@ def scrape_chapter(chapter, args) -> str:
                 take = True
             elif take and "url = " in line:
                 if "github.com/" in url:
-                    url = f"https://raw.githubusercontent.com/{url.split('github.com/')[1].replace('.git','')}/refs/heads/chapters/chapters/{chapter}.txt"
+                    if "0" not in lang:
+                        url = f"https://raw.githubusercontent.com/{url.split('github.com/')[1].replace('.git','')}/refs/heads/chapters/chapters/{chapter}.txt"
+                    else:
+                        url = f"https://raw.githubusercontent.com/{url.split('github.com/')[1].replace('.git','')}/refs/heads/chapters/chapters-ch/{chapter}.txt"
 
                 elif "git@github.com:" in url:
-                    url = f"https://raw.githubusercontent.com/{url.split('git@github.com:')[1].replace('.git','')}/refs/heads/chapters/chapters/{chapter}.txt"
+                    if "0" not in lang:
+                        url = f"https://raw.githubusercontent.com/{url.split('git@github.com:')[1].replace('.git','')}/refs/heads/chapters/chapters/{chapter}.txt"
+                    else:
+                        url = f"https://raw.githubusercontent.com/{url.split('git@github.com:')[1].replace('.git','')}/refs/heads/chapters/chapters-ch/{chapter}.txt"
             break
 
     response = requests.get(url)
@@ -125,7 +137,10 @@ def translatewhole(chapter, lang, args) -> Generator[list[str]]:
     patterns = []
     if not args.noreplace:
 
-        url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}.txt"
+        if "0" not in lang:
+            url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters/{lang}.txt"
+        else:
+            url = f"https://raw.githubusercontent.com/logbyjungle/ReverendTranslated/refs/heads/chapters-ch/{lang[3:]}.txt"
         # this hasnt been tested yet
         if os.path.isfile("./.git/config"):
             with open("./.git/config") as file:
@@ -136,10 +151,18 @@ def translatewhole(chapter, lang, args) -> Generator[list[str]]:
                     take = True
                 elif take and "url = " in line:
                     if "github.com/" in url:
-                        url = f"https://raw.githubusercontent.com/{url.split('github.com/')[1].replace('.git','')}/refs/heads/chapters/{lang}.txt"
+                        if "0" not in lang:
+                            url = f"https://raw.githubusercontent.com/{url.split('github.com/')[1].replace('.git','')}/refs/heads/chapters/{lang}.txt"
+                        else:
+                            url = f"https://raw.githubusercontent.com/{url.split('github.com/')[1].replace('.git','')}/refs/heads/chapters-ch/{lang[3:]}.txt"
+
 
                     elif "git@github.com:" in url:
-                        url = f"https://raw.githubusercontent.com/{url.split('git@github.com:')[1].replace('.git','')}/refs/heads/chapters/{lang}.txt"
+                        if "0" not in lang:
+                            url = f"https://raw.githubusercontent.com/{url.split('git@github.com:')[1].replace('.git','')}/refs/heads/chapters/{lang}.txt"
+                        else:
+                            url = f"https://raw.githubusercontent.com/{url.split('git@github.com:')[1].replace('.git','')}/refs/heads/chapters-ch/{lang[3:]}.txt"
+
                 break
 
         response = requests.get(url)
@@ -167,7 +190,7 @@ def translatewhole(chapter, lang, args) -> Generator[list[str]]:
     if not args.nowrite:
         file = open("translations/" + filename, "w")
 
-    for to_translate in totranslatewhole(chapter, args):
+    for to_translate in totranslatewhole(chapter, args, lang):
         with playwright_lock:
             translated = translate(to_translate, lang, args)
         translated = re.sub(r"\n\s*\n+", "\n", translated)
@@ -196,8 +219,8 @@ def translatewhole(chapter, lang, args) -> Generator[list[str]]:
         file.close()
 
 
-def totranslatewhole(chapter, args) -> list[str]:
-    text = scrape_chapter(chapter, args)
+def totranslatewhole(chapter, args, lang) -> list[str]:
+    text = scrape_chapter(chapter, args, lang)
 
     splits = text.split("\n\n\n")
     splits_encoded = [urllib.parse.quote(split) for split in splits]

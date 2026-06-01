@@ -58,9 +58,12 @@ def validity_check(func):
                 print(f"DEBUG: selected chapter not in range 1-2334")
             return redirect(url_for("home"))
         elif lang not in langs.values():
-            if args.verbose:
-                print(f"DEBUG: selected language not in languages list")
-            return redirect(url_for("home"))
+            if lang in ["ch0"+lang for lang in langs.values()]:
+                return func(lang, chapter)
+            else:
+                if args.verbose:
+                    print(f"DEBUG: selected language not in languages list")
+                return redirect(url_for("home"))
         return func(lang, chapter)
 
     return wrapper
