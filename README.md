@@ -18,7 +18,7 @@
 git clone https://github.com/logbyjungle/ReverendTranslated.git
 cd ReverendTranslated
 pip install -m requirements.txt # use a venv if you want to
-python main.py
+gunicorn -w 1 -k sync -b 0.0.0.0:5000 -t 120 main:app # use a venv if you want to
 ```
 And then enter the site at `localhost:5000`  
 
@@ -91,3 +91,4 @@ The objective to be reached is spreading *Gu Zhen Ren*'s work across the globe b
 > add flags under the language search bar  
 > check out kubernetes for implementing auto container scaling  
 > add book cover on chapter 1  
+> merge with the `tunnel` branch using patches  
